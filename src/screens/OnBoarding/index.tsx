@@ -1,11 +1,13 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useCallback, useEffect } from 'react';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { Image, View, Text, ImageSourcePropType } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { material } from 'react-native-typography';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
 
+import { onBoard } from '../../store/actions';
 import { RootState } from '../../store';
 import styles from './OnBoarding.style';
 import Colors from '../../assets/colors';
@@ -17,21 +19,21 @@ const slides = [
     title: 'Welcome',
     text: 'Description.Say something cool',
     image: require('../../assets/img/onboardscreenimg1.png'),
-    backgroundColor: Colors.onboardOne,
+    backgroundColor: Colors.shadeOne,
   },
   {
     key: 2,
     title: 'Know the App',
     text: 'Other cool stuff',
     image: require('../../assets/img/onboardscreenimg2.png'),
-    backgroundColor: Colors.onboardTwo,
+    backgroundColor: Colors.shadeTwo,
   },
   {
     key: 3,
     title: 'Rocket guy',
     text: "Let's Start",
     image: require('../../assets/img/onboardscreenimg3.png'),
-    backgroundColor: Colors.onboardThree,
+    backgroundColor: Colors.shadeThree,
   },
 ];
 
@@ -44,12 +46,24 @@ type Item = {
 };
 
 const OnBoarding = (): ReactElement => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
   const { onBoarded } = useSelector((state: RootState) => state.onboard);
+
+  const navigateToLogin = useCallback(() => {
+    navigation.navigate('login');
+  }, [navigation]);
+
+  useEffect(() => {
+    // If user already onBoarded navigate to login.
+    if (onBoarded) navigateToLogin();
+  }, []);
 
   const renderItems = ({ item }: { item: Item }) => {
     return (
       <LinearGradient
-        colors={[item.backgroundColor, Colors.white]}
+        locations={[0, 0.99]}
+        colors={[Colors.primary, Colors.naturalTwo]}
         style={[styles.slide]}>
         <Text style={[styles.title, material.headline]}>{item.title}</Text>
         <View style={styles.imageContainer}>
@@ -70,36 +84,29 @@ const OnBoarding = (): ReactElement => {
 
   const renderSkipButton = () => {
     return (
-      <View style={styles.buttonRounded}>
-        <Text style={material.body1White}>Skip</Text>
+      <View style={styles.skip}>
+        <Text style={[material.body1, { color: Colors.secondary }]}>Skip</Text>
       </View>
     );
   };
 
   const renderDoneButton = () => {
     return (
-      <View style={styles.buttonCircle}>
-        <Icon
-          name="checkmark-outline"
-          color="rgba(255, 255, 255, .9)"
-          size={24}
-        />
+      <View style={[styles.buttonCircle, styles.greenBtn]}>
+        <Icon name="checkmark-outline" color={Colors.white} size={24} />
       </View>
     );
   };
 
   const onDone = () => {
-    // User finished the introduction. Show real app through
-    // navigation or simply by controlling state
-    // TODO
+    // User finished the introduction. Save this and show login.
+    dispatch(onBoard());
+    navigateToLogin();
   };
 
-  if (onBoarded) {
-    // Go directly to login screen.
-    return <View />;
-  }
-
-  return (
+  return onBoarded ? (
+    <View style={styles.slide} />
+  ) : (
     <AppIntroSlider
       showSkipButton
       renderItem={renderItems}

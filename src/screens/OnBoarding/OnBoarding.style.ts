@@ -18,10 +18,13 @@ export default StyleSheet.create({
         flex: 0.3,
     },
     dotStyle: {
-        backgroundColor: Colors.secondary,
+        backgroundColor: Colors.spotOne,
     },
     activeDotStyle: {
-        backgroundColor: Colors.dimwhite,
+        backgroundColor: Colors.secondary,
+    },
+    skip: {
+        paddingTop: 15,
     },
     buttonCircle: {
         width: 40,
@@ -31,12 +34,7 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    buttonRounded: {
-        width: 50,
-        height: 40,
-        backgroundColor: Colors.secondary,
-        borderRadius: 8,
-        justifyContent: 'center',
-        alignItems: 'center',
+    greenBtn: {
+        backgroundColor: Colors.skipgradientTwo,
     }
 });
