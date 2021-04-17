@@ -47,7 +47,7 @@ const Splash = (): ReactElement => {
     });
 
     AsyncStorage.getItem('onboarded').then(value => {
-      if (value !== null) {
+      if (value !== null && value === '1') {
         dispatch(onBoard());
       }
       // Shows the loader for 2 seconds

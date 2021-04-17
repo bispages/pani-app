@@ -6,6 +6,7 @@ import { material } from 'react-native-typography';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { onBoard } from '../../store/actions';
 import { RootState } from '../../store';
@@ -101,7 +102,9 @@ const OnBoarding = (): ReactElement => {
   const onDone = () => {
     // User finished the introduction. Save this and show login.
     dispatch(onBoard());
-    navigateToLogin();
+    AsyncStorage.setItem('onboarded', '1').then(() => {
+      navigateToLogin();
+    });
   };
 
   return onBoarded ? (
