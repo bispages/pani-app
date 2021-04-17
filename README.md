@@ -20,7 +20,7 @@ React Native - powered Android application.
 
 Pani app uses a number of open source projects to work properly:
 
-- [React Native](https://reactnative.dev/) - HTML enhanced for web apps!
+- [React Native](https://reactnative.dev/) - Mobile app development made easy!
 - [Node.js](https://nodejs.org/en/) - evented I/O for the backend
 - [Express](https://expressjs.com/) - fast node.js network app framework
 
