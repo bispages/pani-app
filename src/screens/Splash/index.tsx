@@ -48,7 +48,8 @@ const Splash = (): ReactElement => {
 
     AsyncStorage.getItem('onboarded').then(value => {
       if (value !== null && value === '1') {
-        dispatch(onBoard());
+        // TODO - Remove comment for business logic
+        // dispatch(onBoard());
       }
       // Shows the loader for 2 seconds
       setTimeout(() => {

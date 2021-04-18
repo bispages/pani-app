@@ -23,6 +23,9 @@ const colors = {
     skipgradientThree: '#007D57',
     spotOne: '#69708D',
     spotTwo: '#E8EFFF',
+    onBoardOne: '#9BB8CC',
+    onBoardTwo: '#ACBAD0',
+    onBoardThree: '#A2ADB9',
 };
 
 export default colors;

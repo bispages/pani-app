@@ -1,6 +1,6 @@
 import React, { ReactElement, useCallback, useEffect } from 'react';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import { Image, View, Text, ImageSourcePropType } from 'react-native';
+import { View, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { material } from 'react-native-typography';
 import LinearGradient from 'react-native-linear-gradient';
@@ -12,6 +12,9 @@ import { onBoard } from '../../store/actions';
 import { RootState } from '../../store';
 import styles from './OnBoarding.style';
 import Colors from '../../assets/colors';
+import OnBoardOne from '../../assets/img/onboardscreenimg1.svg';
+import OnBoardTwo from '../../assets/img/onboardscreenimg2.svg';
+import OnBoardThree from '../../assets/img/onboardscreenimg3.svg';
 
 // Onboarding Slides.
 const slides = [
@@ -19,22 +22,34 @@ const slides = [
     key: 1,
     title: 'Welcome',
     text: 'Description.Say something cool',
-    image: require('../../assets/img/onboardscreenimg1.png'),
-    backgroundColor: Colors.shadeOne,
+    image: (
+      <View style={styles.image}>
+        <OnBoardOne />
+      </View>
+    ),
+    backgroundColor: Colors.onBoardOne,
   },
   {
     key: 2,
     title: 'Know the App',
     text: 'Other cool stuff',
-    image: require('../../assets/img/onboardscreenimg2.png'),
-    backgroundColor: Colors.shadeTwo,
+    image: (
+      <View style={styles.image}>
+        <OnBoardTwo />
+      </View>
+    ),
+    backgroundColor: Colors.onBoardTwo,
   },
   {
     key: 3,
     title: 'Rocket guy',
     text: "Let's Start",
-    image: require('../../assets/img/onboardscreenimg3.png'),
-    backgroundColor: Colors.shadeThree,
+    image: (
+      <View style={styles.image}>
+        <OnBoardThree />
+      </View>
+    ),
+    backgroundColor: Colors.onBoardThree,
   },
 ];
 
@@ -42,7 +57,7 @@ type Item = {
   key: number;
   title: string;
   text: string;
-  image: ImageSourcePropType;
+  image: ReactElement;
   backgroundColor: string;
 };
 
@@ -64,12 +79,10 @@ const OnBoarding = (): ReactElement => {
     return (
       <LinearGradient
         locations={[0, 0.99]}
-        colors={[Colors.primary, Colors.naturalTwo]}
+        colors={[item.backgroundColor, Colors.naturalTwo]}
         style={[styles.slide]}>
         <Text style={[styles.title, material.headline]}>{item.title}</Text>
-        <View style={styles.imageContainer}>
-          <Image source={item.image} />
-        </View>
+        <View style={styles.imageContainer}>{item.image}</View>
         <Text style={[styles.text, material.subheading]}>{item.text}</Text>
       </LinearGradient>
     );

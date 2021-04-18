@@ -14,6 +14,11 @@ export default StyleSheet.create({
     imageContainer: {
         flex: 0.5,
     },
+    image: {
+        opacity: 0.8,
+        borderRadius: 10,
+        overflow: 'hidden',
+    },
     text: {
         flex: 0.3,
     },
