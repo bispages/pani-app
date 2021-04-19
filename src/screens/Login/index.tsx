@@ -16,7 +16,6 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
-import { material } from 'react-native-typography';
 
 import useBackHandler from '../../hooks/useBackHandler';
 import Colors from '../../assets/colors';
@@ -114,19 +113,17 @@ const Login = () => {
       </Animated.View>
       <Animated.View style={[styles.avoidView, animatedTranslateStyles]}>
         <View style={styles.headline}>
-          <Text style={[styles.heading, material.headline]}>
-            Enter your phone number
-          </Text>
-          <Text style={[styles.subHeading, material.subheading]}>
+          <Text style={[styles.heading]}>Enter your phone number</Text>
+          <Text style={[styles.subHeading]}>
             We will send you the 4 digit verification code
           </Text>
         </View>
         <View style={styles.inputset}>
           <View style={styles.fieldSet}>
-            <Text style={[material.body1, styles.legend]}>Mobile</Text>
-            <Text style={[material.title, styles.preText]}>+91</Text>
+            <Text style={[styles.legend]}>Mobile</Text>
+            <Text style={[styles.preText]}>+91</Text>
             <TextInput
-              style={[material.title, styles.textInput]}
+              style={[styles.textInput]}
               placeholder="Mobile number"
               keyboardType="phone-pad"
               maxLength={10}
@@ -155,7 +152,7 @@ const Login = () => {
               rippleRadius,
             )}>
             <View style={styles.button}>
-              <Text style={material.buttonWhite}>GENERATE OTP</Text>
+              <Text style={styles.btnText}>GENERATE OTP</Text>
             </View>
           </TouchableNativeFeedback>
         </View>

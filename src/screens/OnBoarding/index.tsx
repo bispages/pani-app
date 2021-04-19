@@ -2,7 +2,6 @@ import React, { ReactElement, useCallback, useEffect } from 'react';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { View, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { material } from 'react-native-typography';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation, CommonActions } from '@react-navigation/native';
@@ -94,9 +93,9 @@ const OnBoarding = (): ReactElement => {
         locations={[0, 0.99]}
         colors={[item.backgroundColor, Colors.naturalTwo]}
         style={[styles.slide]}>
-        <Text style={[styles.title, material.headline]}>{item.title}</Text>
+        <Text style={[styles.title]}>{item.title}</Text>
         <View style={styles.imageContainer}>{item.image}</View>
-        <Text style={[styles.text, material.subheading]}>{item.text}</Text>
+        <Text style={[styles.text]}>{item.text}</Text>
       </LinearGradient>
     );
   };
@@ -112,7 +111,7 @@ const OnBoarding = (): ReactElement => {
   const renderSkipButton = () => {
     return (
       <View style={styles.skip}>
-        <Text style={[material.body1, { color: Colors.secondary }]}>Skip</Text>
+        <Text style={styles.skipTxt}>Skip</Text>
       </View>
     );
   };

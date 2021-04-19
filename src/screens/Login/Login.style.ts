@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import Colors from '../../assets/colors';
-
+import { material } from 'react-native-typography';
 
 export default StyleSheet.create({
   login: {
@@ -24,9 +24,11 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   heading: {
-    color: Colors.primary,
+    ...material.titleObject,
+    color: Colors.secondary,
   },
   subHeading: {
+    ...material.captionObject,
     color: Colors.primary,
   },
   inputset: {
@@ -44,6 +46,7 @@ export default StyleSheet.create({
     borderColor: Colors.primary,
   },
   legend: {
+    ...material.body1Object,
     position: 'absolute',
     top: -10,
     left: 10,
@@ -52,6 +55,7 @@ export default StyleSheet.create({
     backgroundColor: Colors.legendBg,
   },
   preText: {
+    ...material.titleObject,
     opacity: 0.2,
     position: 'absolute',
     width: 48,
@@ -62,6 +66,7 @@ export default StyleSheet.create({
     backgroundColor: Colors.naturalTwo,
   },
   textInput: {
+    ...material.titleObject,
     color: Colors.primary,
     paddingLeft: 60,
   },
@@ -83,4 +88,7 @@ export default StyleSheet.create({
     color: Colors.naturalOne,
     backgroundColor: Colors.secondary,
   },
+  btnText: {
+    ...material.buttonWhiteObject,
+  }
 });

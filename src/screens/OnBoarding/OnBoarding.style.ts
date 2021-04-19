@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import Colors from '../../assets/colors';
+import { material } from 'react-native-typography';
 
 export default StyleSheet.create({
     slide: {
@@ -8,6 +9,7 @@ export default StyleSheet.create({
         justifyContent: "center",
     },
     title: {
+        ...material.headlineObject,
         flex: 0.2,
         textAlignVertical: 'center',
     },
@@ -20,6 +22,7 @@ export default StyleSheet.create({
         overflow: 'hidden',
     },
     text: {
+        ...material.subheadingObject,
         flex: 0.3,
     },
     dotStyle: {
@@ -30,6 +33,10 @@ export default StyleSheet.create({
     },
     skip: {
         paddingTop: 15,
+    },
+    skipTxt: {
+        ...material.body1Object,
+        color: Colors.secondary,
     },
     buttonCircle: {
         width: 40,
