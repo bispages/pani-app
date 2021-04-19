@@ -26,6 +26,8 @@ const colors = {
     onBoardOne: '#9BB8CC',
     onBoardTwo: '#ACBAD0',
     onBoardThree: '#A2ADB9',
+    loginBg: '#DBE9FF',
+    legendBg: '#EEF4FF',
 };
 
 export default colors;

@@ -4,19 +4,21 @@ import Colors from '../../assets/colors';
 export default StyleSheet.create({
     container: {
         flex: 1,
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
         backgroundColor: Colors.primary,
     },
     logoContainer: {
-        display: 'flex',
-        flex: 0.1,
+        position: 'absolute',
         zIndex: 2,
-        alignItems: 'center',
-        justifyContent: 'flex-end',
+        margin: 'auto',
     },
     splashContainer: {
         display: 'flex',
-        flex: 0.9,
+        flex: 1,
         zIndex: 1,
+        width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
     },

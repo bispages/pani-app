@@ -5,9 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { material } from 'react-native-typography';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import useBackHandler from '../../hooks/useBackHandler';
 import { onBoard } from '../../store/actions';
 import { RootState } from '../../store';
 import styles from './OnBoarding.style';
@@ -19,7 +20,7 @@ import OnBoardThree from '../../assets/img/onboardscreenimg3.svg';
 // Onboarding Slides.
 const slides = [
   {
-    key: 1,
+    key: 'OnBoardOne',
     title: 'Welcome',
     text: 'Description.Say something cool',
     image: (
@@ -30,7 +31,7 @@ const slides = [
     backgroundColor: Colors.onBoardOne,
   },
   {
-    key: 2,
+    key: 'OnBoardTwo',
     title: 'Know the App',
     text: 'Other cool stuff',
     image: (
@@ -41,7 +42,7 @@ const slides = [
     backgroundColor: Colors.onBoardTwo,
   },
   {
-    key: 3,
+    key: 'OnBoardThree',
     title: 'Rocket guy',
     text: "Let's Start",
     image: (
@@ -54,7 +55,7 @@ const slides = [
 ];
 
 type Item = {
-  key: number;
+  key: string;
   title: string;
   text: string;
   image: ReactElement;
@@ -66,11 +67,23 @@ const OnBoarding = (): ReactElement => {
   const dispatch = useDispatch();
   const { onBoarded } = useSelector((state: RootState) => state.onboard);
 
+  // Adds BackHandler hook.
+  useBackHandler();
+
   const navigateToLogin = useCallback(() => {
     navigation.navigate('login');
   }, [navigation]);
 
   useEffect(() => {
+    navigation.dispatch(state => {
+      // Remove all other routes from the stack so that user cannot go back.
+      const routes = state.routes.filter(r => r.name !== 'splash');
+      return CommonActions.reset({
+        ...state,
+        routes,
+        index: routes.length - 1,
+      });
+    });
     // If user already onBoarded navigate to login.
     if (onBoarded) navigateToLogin();
   }, []);

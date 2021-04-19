@@ -1,12 +1,5 @@
 import React, { ReactElement, useEffect } from 'react';
-import {
-  View,
-  Image,
-  useWindowDimensions,
-  NativeModules,
-  ActivityIndicator,
-  Text,
-} from 'react-native';
+import { View, Image, ActivityIndicator, Text } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -20,7 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
-  LOGOPOSITIONFROMTOP,
+  LOGOPOSITIONFROMMIDDLE,
   ACTIVITYPOSITIONFROMTOP,
   TEXTLOADERPOSITIONFROMTOP,
 } from '../../utils/constants';
@@ -30,9 +23,7 @@ import styles from './Splash.style';
 const Splash = (): ReactElement => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const { StatusBarManager } = NativeModules;
-  const windowHeight = useWindowDimensions().height;
-  const offset = useSharedValue(windowHeight / 2 - StatusBarManager.HEIGHT);
+  const offset = useSharedValue(0);
 
   const animatedStyles = useAnimatedStyle(() => {
     return {
@@ -41,7 +32,7 @@ const Splash = (): ReactElement => {
   });
 
   useEffect(() => {
-    offset.value = withTiming(LOGOPOSITIONFROMTOP, {
+    offset.value = withTiming(LOGOPOSITIONFROMMIDDLE, {
       duration: 1000,
       easing: Easing.elastic(1),
     });
