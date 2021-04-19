@@ -1,5 +1,6 @@
-import { useEffect, useCallback } from 'react';
+import { useCallback, } from 'react';
 import { Alert, BackHandler } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 // Hook handles exiting the app.
 const useBackHandler = () => {
@@ -10,19 +11,15 @@ const useBackHandler = () => {
         onPress: () => null,
         style: 'cancel',
       },
-      { text: 'Yes', onPress: () => BackHandler.exitApp() },
+      { text: 'YES', onPress: () => BackHandler.exitApp() },
     ]);
     return true;
   }, []);
 
-  useEffect(() => {
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
-
-    return () => backHandler.remove();
-  }, []);
+  useFocusEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', backAction);
+    return () => BackHandler.removeEventListener('hardwareBackPress', backAction);
+  });
 };
 
 export default useBackHandler;

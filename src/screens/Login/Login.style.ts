@@ -24,15 +24,15 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   heading: {
-    ...material.titleObject,
-    color: Colors.secondary,
+    ...material.headlineObject,
+    color: Colors.primary,
   },
   subHeading: {
     ...material.captionObject,
     color: Colors.primary,
   },
   inputset: {
-    flex: 0.6,
+    flex: 0.3,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'flex-start',
@@ -76,8 +76,11 @@ export default StyleSheet.create({
     left: 0,
     backgroundColor: 'black',
   },
-  btnset: {
-    flex: 1,
+  btnContainer: {
+    flex: 0.3,
+    width: '100%',
+    alignItems: "center",
+    justifyContent: 'flex-start',
   },
   button: {
     width: '70%',
@@ -90,5 +93,45 @@ export default StyleSheet.create({
   },
   btnText: {
     ...material.buttonWhiteObject,
-  }
+  },
+  phonenum: {
+    ...material.titleObject,
+    fontSize: 16,
+  },
+  otpTextInput: {
+    ...material.headlineObject,
+    width: 50,
+    height: 50,
+    marginBottom: 10,
+    borderRadius: 4,
+    borderWidth: 1,
+    color: Colors.primary,
+  },
+  codeContainer: {
+    flex: 0.5,
+    width: '80%',
+    flexDirection: 'row',
+    alignItems: "center",
+    justifyContent: 'space-evenly',
+  },
+  resendContainer: {
+    flex: 0.5,
+    width: '80%',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+  text: {
+    padding: 4,
+    ...material.buttonObject,
+    color: Colors.primary,
+  },
+  resendBtn:{
+    padding: 4,
+    marginLeft: 2,
+  },
+  resendBtnTxt: {
+    ...material.buttonObject,
+    color: Colors.secondary,
+  },
 });

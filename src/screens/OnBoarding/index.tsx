@@ -70,7 +70,7 @@ const OnBoarding = (): ReactElement => {
   useBackHandler();
 
   const navigateToLogin = useCallback(() => {
-    navigation.navigate('login');
+    navigation.navigate('loginstack');
   }, [navigation]);
 
   useEffect(() => {

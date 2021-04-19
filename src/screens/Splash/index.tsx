@@ -38,13 +38,15 @@ const Splash = (): ReactElement => {
     });
 
     AsyncStorage.getItem('onboarded').then(value => {
+      let navigateTo = 'onboard';
       if (value !== null && value === '1') {
         // TODO - Remove comment for business logic
         // dispatch(onBoard());
+        // navigateTo = 'loginstack';
       }
       // Shows the loader for 2 seconds
       setTimeout(() => {
-        navigation.navigate('onboard');
+        navigation.navigate(navigateTo);
       }, 2000);
     });
   }, []);

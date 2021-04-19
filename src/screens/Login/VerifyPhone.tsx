@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useReducer, createRef, RefObject } from 'react';
 import {
   View,
   Text,
   TextInput,
   Keyboard,
   NativeModules,
+  TouchableOpacity,
   TouchableNativeFeedback,
   useWindowDimensions,
 } from 'react-native';
@@ -14,15 +15,48 @@ import Animated, {
   withTiming,
   Easing,
 } from 'react-native-reanimated';
-import { useNavigation, CommonActions } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 
-import useBackHandler from '../../hooks/useBackHandler';
 import Colors from '../../assets/colors';
 import styles from './Login.style';
-import LoginPhone from '../../assets/img/loginphone.svg';
+import Verifyphone from '../../assets/img/verifyphone.svg';
 
-const Login = () => {
+const initialState = {
+  code1: '',
+  code2: '',
+  code3: '',
+  code4: '',
+};
+
+type CodeObject = {
+  code1: string;
+  code2: string;
+  code3: string;
+  code4: string;
+};
+
+type Action = {
+  type: string;
+  value: string;
+};
+
+function reducer(state: CodeObject | any, action: Action) {
+  switch (action.type) {
+    case 'code1':
+      return { ...state, code1: action.value };
+    case 'code2':
+      return { ...state, code2: action.value };
+    case 'code3':
+      return { ...state, code3: action.value };
+    case 'code4':
+      return { ...state, code4: action.value };
+    default:
+      throw new Error('Codes not fetched');
+  }
+}
+
+const VerifyPhone = () => {
   const INITIAL_SCALE = 1;
   const INITIAL_OFFSET = 0;
   const navigation = useNavigation();
@@ -30,10 +64,11 @@ const Login = () => {
   const windowWidth = useWindowDimensions().width;
   const windowHeight = useWindowDimensions().height;
   const rippleRadius = windowWidth * 0.4;
-  const [phone, setPhone] = useState('');
   const scale = useSharedValue(INITIAL_SCALE);
   const offsetView = useSharedValue(INITIAL_OFFSET);
   const offsetImage = useSharedValue(INITIAL_OFFSET);
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const refs: RefObject<TextInput>[] = [];
 
   // For image scaling
   const animatedScaleStyles = useAnimatedStyle(() => {
@@ -75,14 +110,6 @@ const Login = () => {
     });
   };
 
-  // Adds hardware BackHandler hook.
-  useBackHandler();
-
-  const submit = () => {
-    // TODO sideEffects dispatch.
-    navigation.navigate('verifyphone');
-  };
-
   useEffect(() => {
     // Keyboard events.
     Keyboard.addListener('keyboardDidHide', keyboardDidHide);
@@ -95,6 +122,13 @@ const Login = () => {
   const keyboardDidHide = () =>
     scaleImage(INITIAL_SCALE, INITIAL_OFFSET, INITIAL_OFFSET);
 
+  const onTextChange = (key: string, text: string, index: number) => {
+    dispatch({ type: key, value: text });
+    if (index < 3 && text !== '') refs[index + 1].current?.focus();
+  };
+
+  const submit = () => null;
+
   return (
     <LinearGradient
       locations={[0, 0.99]}
@@ -102,40 +136,54 @@ const Login = () => {
       style={[styles.login]}>
       <Animated.View style={[styles.image, animatedImageTranslateStyles]}>
         <Animated.View style={[{ width: '100%' }, animatedScaleStyles]}>
-          <LoginPhone width="90%" height="90%" />
+          <Verifyphone width="100%" height="90%" />
         </Animated.View>
       </Animated.View>
       <Animated.View style={[styles.avoidView, animatedTranslateStyles]}>
         <View style={styles.headline}>
-          <Text style={[styles.heading]}>Enter your phone number</Text>
+          <Text style={[styles.heading]}>OTP Verification</Text>
           <Text style={[styles.subHeading]}>
-            We will send you the 4 digit verification code
+            Enter the OTP sent to{' '}
+            <Text style={[styles.phonenum]}>+91 9065787380</Text>
           </Text>
         </View>
         <View style={styles.inputset}>
-          <View style={styles.fieldSet}>
-            <Text style={[styles.legend]}>Mobile</Text>
-            <Text style={[styles.preText]}>+91</Text>
-            <TextInput
-              style={[styles.textInput]}
-              placeholder="Mobile number"
-              keyboardType="phone-pad"
-              maxLength={10}
-              onChangeText={text => setPhone(text)}
-              defaultValue={phone}
-              autoCorrect={false}
-              autoCompleteType="tel"
-              returnKeyType="done"
-              textAlign="left"
-              textContentType="telephoneNumber"
-              onPressIn={() =>
-                scaleImage(
-                  INITIAL_SCALE * 0.5,
-                  INITIAL_OFFSET - (windowHeight / 4 - StatusBarManager.HEIGHT),
-                  INITIAL_OFFSET - 20,
-                )
-              }
-            />
+          <View style={styles.codeContainer}>
+            {Object.keys(initialState).map((key, index) => {
+              const newRef = createRef<TextInput>();
+              refs.push(newRef);
+              return (
+                <TextInput
+                  key={key}
+                  ref={newRef}
+                  style={[styles.otpTextInput]}
+                  keyboardType="numeric"
+                  maxLength={1}
+                  onChangeText={text => onTextChange(key, text, index)}
+                  defaultValue={state[key]}
+                  autoCorrect={false}
+                  returnKeyType={key === 'code4' ? 'done' : 'next'}
+                  textAlign="center"
+                  textContentType="oneTimeCode"
+                  onPressIn={() =>
+                    scaleImage(
+                      INITIAL_SCALE * 0.5,
+                      INITIAL_OFFSET -
+                        (windowHeight / 4 - StatusBarManager.HEIGHT),
+                      INITIAL_OFFSET - 20,
+                    )
+                  }
+                />
+              );
+            })}
+          </View>
+          <View style={styles.resendContainer}>
+            <Text style={styles.text}>Didn't received OTP?</Text>
+            <View style={styles.resendBtn}>
+              <TouchableOpacity onPress={submit}>
+                <Text style={styles.resendBtnTxt}>RESEND</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
         <View style={styles.btnContainer}>
@@ -147,7 +195,7 @@ const Login = () => {
               rippleRadius,
             )}>
             <View style={styles.button}>
-              <Text style={styles.btnText}>GENERATE OTP</Text>
+              <Text style={styles.btnText}>VERIFY</Text>
             </View>
           </TouchableNativeFeedback>
         </View>
@@ -156,4 +204,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default VerifyPhone;
