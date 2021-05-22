@@ -2,19 +2,19 @@ import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
-  TextInput,
   Keyboard,
   NativeModules,
-  TouchableNativeFeedback,
   useWindowDimensions,
 } from 'react-native';
+import { TextInput, Button, useTheme } from 'react-native-paper';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
   Easing,
 } from 'react-native-reanimated';
-import { useNavigation, CommonActions } from '@react-navigation/native';
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
+import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import useBackHandler from '../../hooks/useBackHandler';
@@ -25,12 +25,13 @@ import LoginPhone from '../../assets/img/loginphone.svg';
 const Login = () => {
   const INITIAL_SCALE = 1;
   const INITIAL_OFFSET = 0;
+  const { appColors } = useTheme();
   const navigation = useNavigation();
   const { StatusBarManager } = NativeModules;
-  const windowWidth = useWindowDimensions().width;
   const windowHeight = useWindowDimensions().height;
-  const rippleRadius = windowWidth * 0.4;
   const [phone, setPhone] = useState('');
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [generateOTPDisabled, setGenerateOTPDisabled] = useState(true);
   const scale = useSharedValue(INITIAL_SCALE);
   const offsetView = useSharedValue(INITIAL_OFFSET);
   const offsetImage = useSharedValue(INITIAL_OFFSET);
@@ -80,20 +81,44 @@ const Login = () => {
 
   const submit = () => {
     // TODO sideEffects dispatch.
-    navigation.navigate('verifyphone');
+    navigation.navigate('verifyphone', { phone });
   };
+
+  const onTextChange = (text: string) => {
+    setPhone(text.replace(/[^0-9]/g, ''));
+  };
+
+  const acceptTerms = (isChecked?: boolean): void => {
+    Keyboard.dismiss();
+    if (isChecked !== undefined) setTermsAccepted(isChecked);
+    else setTermsAccepted(false);
+  };
+
+  useEffect(() => {
+    setGenerateOTPDisabled(!(termsAccepted && phone.length === 10));
+  }, [termsAccepted, phone]);
 
   useEffect(() => {
     // Keyboard events.
     Keyboard.addListener('keyboardDidHide', keyboardDidHide);
+    Keyboard.addListener('keyboardDidShow', keyboardDidShow);
+
     // cleanup function
     return () => {
       Keyboard.removeListener('keyboardDidHide', keyboardDidHide);
+      Keyboard.removeListener('keyboardDidShow', keyboardDidShow);
     };
   }, []);
 
   const keyboardDidHide = () =>
     scaleImage(INITIAL_SCALE, INITIAL_OFFSET, INITIAL_OFFSET);
+
+  const keyboardDidShow = () =>
+    scaleImage(
+      INITIAL_SCALE * 0.5,
+      INITIAL_OFFSET - (windowHeight / 4 - StatusBarManager.HEIGHT),
+      INITIAL_OFFSET - 20,
+    );
 
   return (
     <LinearGradient
@@ -112,44 +137,66 @@ const Login = () => {
             We will send you the 4 digit verification code
           </Text>
         </View>
-        <View style={styles.inputset}>
-          <View style={styles.fieldSet}>
-            <Text style={[styles.legend]}>Mobile</Text>
-            <Text style={[styles.preText]}>+91</Text>
-            <TextInput
-              style={[styles.textInput]}
-              placeholder="Mobile number"
-              keyboardType="phone-pad"
-              maxLength={10}
-              onChangeText={text => setPhone(text)}
-              defaultValue={phone}
-              autoCorrect={false}
-              autoCompleteType="tel"
-              returnKeyType="done"
-              textAlign="left"
-              textContentType="telephoneNumber"
-              onPressIn={() =>
-                scaleImage(
-                  INITIAL_SCALE * 0.5,
-                  INITIAL_OFFSET - (windowHeight / 4 - StatusBarManager.HEIGHT),
-                  INITIAL_OFFSET - 20,
-                )
-              }
-            />
-          </View>
+        <View style={[styles.inputset]}>
+          <TextInput
+            mode="outlined"
+            label="Mobile Number"
+            left={
+              <TextInput.Affix
+                text="+91"
+                textStyle={styles.preText}
+                theme={{
+                  colors: {
+                    primary: appColors.primary,
+                  },
+                }}
+              />
+            }
+            theme={{
+              colors: {
+                primary: appColors.secondary,
+                text: appColors.primary,
+                background: appColors.white,
+              },
+            }}
+            style={[styles.textInput]}
+            keyboardType="phone-pad"
+            maxLength={10}
+            onChangeText={text => onTextChange(text)}
+            defaultValue={phone}
+            value={phone}
+            autoCorrect={false}
+            autoCompleteType="tel"
+            returnKeyType="done"
+            textAlign="left"
+            textContentType="telephoneNumber"
+          />
         </View>
+        <BouncyCheckbox
+          size={18}
+          fillColor={Colors.secondary}
+          unfillColor="transparent"
+          text="I accept the terms and conditions."
+          onPress={acceptTerms}
+          style={styles.checkboxContainer}
+          textStyle={styles.textStyle}
+          iconStyle={styles.iconStyle}
+        />
         <View style={styles.btnContainer}>
-          <TouchableNativeFeedback
+          <Button
+            dark
+            loading={false}
+            mode="contained"
+            disabled={generateOTPDisabled}
             onPress={submit}
-            background={TouchableNativeFeedback.Ripple(
-              Colors.primary,
-              false,
-              rippleRadius,
-            )}>
-            <View style={styles.button}>
-              <Text style={styles.btnText}>GENERATE OTP</Text>
-            </View>
-          </TouchableNativeFeedback>
+            contentStyle={styles.button}
+            theme={{
+              colors: {
+                primary: appColors.secondary,
+              },
+            }}>
+            GENERATE OTP
+          </Button>
         </View>
       </Animated.View>
     </LinearGradient>

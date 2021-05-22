@@ -11,14 +11,31 @@ import React, { useCallback, useEffect } from 'react';
 import { View, StatusBar, StyleSheet } from 'react-native';
 import { enableScreens } from 'react-native-screens';
 import BootSplash from 'react-native-bootsplash';
-import { Provider } from 'react-redux';
+import { Provider as StoreProvider } from 'react-redux';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 
-import OnBoardingNavigationStack from './src/navigations/OnBoardingNavigationStack';
+import RootNavigationContainer from './src/navigations/RootNavigationContainer';
 import configureStore from './src/store';
 import Colors from './src/assets/colors';
 
 enableScreens();
 const store = configureStore();
+
+declare global {
+  namespace ReactNativePaper {
+    interface Theme {
+      appColors: typeof Colors;
+    }
+  }
+}
+
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+  },
+  appColors: Colors,
+};
 
 const App = () => {
   useEffect(() => {
@@ -26,12 +43,14 @@ const App = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
-      <Provider store={store}>
-        <OnBoardingNavigationStack />
-      </Provider>
-    </View>
+    <StoreProvider store={store}>
+      <PaperProvider theme={theme}>
+        <View style={styles.container}>
+          <StatusBar barStyle="light-content" />
+          <RootNavigationContainer />
+        </View>
+      </PaperProvider>
+    </StoreProvider>
   );
 };
 

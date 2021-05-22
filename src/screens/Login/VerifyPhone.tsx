@@ -1,4 +1,11 @@
-import React, { useEffect, useReducer, createRef, RefObject } from 'react';
+import React, {
+  useEffect,
+  useReducer,
+  createRef,
+  RefObject,
+  useState,
+  useCallback,
+} from 'react';
 import {
   View,
   Text,
@@ -6,9 +13,13 @@ import {
   Keyboard,
   NativeModules,
   TouchableOpacity,
-  TouchableNativeFeedback,
   useWindowDimensions,
 } from 'react-native';
+import {
+  TextInput as PaperTextInput,
+  Button,
+  useTheme,
+} from 'react-native-paper';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -56,19 +67,24 @@ function reducer(state: CodeObject | any, action: Action) {
   }
 }
 
-const VerifyPhone = () => {
+type routeParams = {
+  route: { params: { phone: string } };
+};
+
+const VerifyPhone = ({ route: { params } }: routeParams) => {
   const INITIAL_SCALE = 1;
   const INITIAL_OFFSET = 0;
+  const { phone } = params;
   const navigation = useNavigation();
   const { StatusBarManager } = NativeModules;
-  const windowWidth = useWindowDimensions().width;
   const windowHeight = useWindowDimensions().height;
-  const rippleRadius = windowWidth * 0.4;
   const scale = useSharedValue(INITIAL_SCALE);
   const offsetView = useSharedValue(INITIAL_OFFSET);
   const offsetImage = useSharedValue(INITIAL_OFFSET);
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [verifyActionDisabled, setVerifyActionDisabled] = useState(true);
   const refs: RefObject<TextInput>[] = [];
+  const { appColors } = useTheme();
 
   // For image scaling
   const animatedScaleStyles = useAnimatedStyle(() => {
@@ -111,23 +127,51 @@ const VerifyPhone = () => {
   };
 
   useEffect(() => {
+    if (!verifyActionDisabled) Keyboard.dismiss();
+  }, [verifyActionDisabled]);
+
+  useEffect(() => {
     // Keyboard events.
     Keyboard.addListener('keyboardDidHide', keyboardDidHide);
+    Keyboard.addListener('keyboardDidShow', keyboardDidShow);
     // cleanup function
     return () => {
       Keyboard.removeListener('keyboardDidHide', keyboardDidHide);
+      Keyboard.removeListener('keyboardDidShow', keyboardDidShow);
     };
   }, []);
 
   const keyboardDidHide = () =>
     scaleImage(INITIAL_SCALE, INITIAL_OFFSET, INITIAL_OFFSET);
 
+  const keyboardDidShow = () =>
+    scaleImage(
+      INITIAL_SCALE * 0.5,
+      INITIAL_OFFSET - (windowHeight / 4 - StatusBarManager.HEIGHT),
+      INITIAL_OFFSET - 20,
+    );
+
   const onTextChange = (key: string, text: string, index: number) => {
-    dispatch({ type: key, value: text });
-    if (index < 3 && text !== '') refs[index + 1].current?.focus();
+    const val = text.replace(/[^0-9]/g, '');
+    dispatch({ type: key, value: val });
+    if (index < 3 && '' !== val) refs[index + 1].current?.focus();
   };
 
-  const submit = () => null;
+  const isVerifyActionDisabled = useCallback(() => {
+    const isFilled = Object.keys(initialState).filter(key => state[key] === '')
+      .length;
+    setVerifyActionDisabled(isFilled > 0);
+  }, [state]);
+
+  useEffect(() => {
+    isVerifyActionDisabled();
+  }, [state]);
+
+  const resend = () => null;
+
+  const verify = () => {
+    navigation.navigate('userform');
+  };
 
   return (
     <LinearGradient
@@ -142,62 +186,68 @@ const VerifyPhone = () => {
       <Animated.View style={[styles.avoidView, animatedTranslateStyles]}>
         <View style={styles.headline}>
           <Text style={[styles.heading]}>OTP Verification</Text>
-          <Text style={[styles.subHeading]}>
-            Enter the OTP sent to{' '}
-            <Text style={[styles.phonenum]}>+91 9065787380</Text>
-          </Text>
+          <View style={[styles.phoneVerifyContainer]}>
+            <Text style={[styles.subHeading]}>Enter the OTP sent to</Text>
+            <Text style={[styles.phonenum]}>{`+91 ${phone}`}</Text>
+          </View>
         </View>
-        <View style={styles.inputset}>
+        <View style={styles.inputsetContainer}>
           <View style={styles.codeContainer}>
             {Object.keys(initialState).map((key, index) => {
               const newRef = createRef<TextInput>();
               refs.push(newRef);
               return (
-                <TextInput
+                <PaperTextInput
                   key={key}
                   ref={newRef}
+                  mode="outlined"
+                  theme={{
+                    colors: {
+                      primary: appColors.secondary,
+                      text: appColors.primary,
+                      background: appColors.white,
+                    },
+                  }}
                   style={[styles.otpTextInput]}
+                  selectionColor={appColors.secondary}
+                  underlineColor={appColors.primary}
                   keyboardType="numeric"
                   maxLength={1}
                   onChangeText={text => onTextChange(key, text, index)}
                   defaultValue={state[key]}
+                  value={state[key]}
                   autoCorrect={false}
                   returnKeyType={key === 'code4' ? 'done' : 'next'}
                   textAlign="center"
                   textContentType="oneTimeCode"
-                  onPressIn={() =>
-                    scaleImage(
-                      INITIAL_SCALE * 0.5,
-                      INITIAL_OFFSET -
-                        (windowHeight / 4 - StatusBarManager.HEIGHT),
-                      INITIAL_OFFSET - 20,
-                    )
-                  }
                 />
               );
             })}
           </View>
           <View style={styles.resendContainer}>
-            <Text style={styles.text}>Didn't received OTP?</Text>
+            <Text style={styles.resendText}>Didn't received OTP?</Text>
             <View style={styles.resendBtn}>
-              <TouchableOpacity onPress={submit}>
+              <TouchableOpacity onPress={resend}>
                 <Text style={styles.resendBtnTxt}>RESEND</Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
         <View style={styles.btnContainer}>
-          <TouchableNativeFeedback
-            onPress={submit}
-            background={TouchableNativeFeedback.Ripple(
-              Colors.primary,
-              false,
-              rippleRadius,
-            )}>
-            <View style={styles.button}>
-              <Text style={styles.btnText}>VERIFY</Text>
-            </View>
-          </TouchableNativeFeedback>
+          <Button
+            dark
+            loading={false}
+            mode="contained"
+            disabled={verifyActionDisabled}
+            onPress={verify}
+            contentStyle={styles.button}
+            theme={{
+              colors: {
+                primary: appColors.secondary,
+              },
+            }}>
+            VERIFY
+          </Button>
         </View>
       </Animated.View>
     </LinearGradient>

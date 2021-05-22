@@ -8,21 +8,15 @@ import Animated, {
 } from 'react-native-reanimated';
 import { material } from 'react-native-typography';
 import LottieView from 'lottie-react-native';
-import { useDispatch } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
   LOGOPOSITIONFROMMIDDLE,
   ACTIVITYPOSITIONFROMTOP,
   TEXTLOADERPOSITIONFROMTOP,
 } from '../../utils/constants';
-import { onBoard } from '../../store/actions';
 import styles from './Splash.style';
 
 const Splash = (): ReactElement => {
-  const dispatch = useDispatch();
-  const navigation = useNavigation();
   const offset = useSharedValue(0);
 
   const animatedStyles = useAnimatedStyle(() => {
@@ -35,19 +29,6 @@ const Splash = (): ReactElement => {
     offset.value = withTiming(LOGOPOSITIONFROMMIDDLE, {
       duration: 1000,
       easing: Easing.elastic(1),
-    });
-
-    AsyncStorage.getItem('onboarded').then(value => {
-      let navigateTo = 'onboard';
-      if (value !== null && value === '1') {
-        // TODO - Remove comment for business logic
-        // dispatch(onBoard());
-        // navigateTo = 'loginstack';
-      }
-      // Shows the loader for 2 seconds
-      setTimeout(() => {
-        navigation.navigate(navigateTo);
-      }, 2000);
     });
   }, []);
 

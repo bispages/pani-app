@@ -3,8 +3,8 @@ import AppIntroSlider from 'react-native-app-intro-slider';
 import { View, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { useNavigation, CommonActions } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import useBackHandler from '../../hooks/useBackHandler';
@@ -20,8 +20,9 @@ import OnBoardThree from '../../assets/img/onboardscreenimg3.svg';
 const slides = [
   {
     key: 'OnBoardOne',
-    title: 'Welcome',
-    text: 'Description.Say something cool',
+    title: 'Need Materials?',
+    text:
+      'Select needed items from list and order it with your favourite shop or nearby shop',
     image: (
       <View style={styles.image}>
         <OnBoardOne />
@@ -31,8 +32,8 @@ const slides = [
   },
   {
     key: 'OnBoardTwo',
-    title: 'Know the App',
-    text: 'Other cool stuff',
+    title: 'Need Tradesman?',
+    text: 'Search for nearby technicians and laborers',
     image: (
       <View style={styles.image}>
         <OnBoardTwo />
@@ -42,8 +43,8 @@ const slides = [
   },
   {
     key: 'OnBoardThree',
-    title: 'Rocket guy',
-    text: "Let's Start",
+    title: 'Need Material Estimate?',
+    text: 'Select the number of materials and get estimate with just a click',
     image: (
       <View style={styles.image}>
         <OnBoardThree />
@@ -74,15 +75,6 @@ const OnBoarding = (): ReactElement => {
   }, [navigation]);
 
   useEffect(() => {
-    navigation.dispatch(state => {
-      // Remove all other routes from the stack so that user cannot go back.
-      const routes = state.routes.filter(r => r.name !== 'splash');
-      return CommonActions.reset({
-        ...state,
-        routes,
-        index: routes.length - 1,
-      });
-    });
     // If user already onBoarded navigate to login.
     if (onBoarded) navigateToLogin();
   }, []);
@@ -93,8 +85,8 @@ const OnBoarding = (): ReactElement => {
         locations={[0, 0.99]}
         colors={[item.backgroundColor, Colors.naturalTwo]}
         style={[styles.slide]}>
-        <Text style={[styles.title]}>{item.title}</Text>
         <View style={styles.imageContainer}>{item.image}</View>
+        <Text style={[styles.title]}>{item.title}</Text>
         <Text style={[styles.text]}>{item.text}</Text>
       </LinearGradient>
     );
@@ -103,7 +95,7 @@ const OnBoarding = (): ReactElement => {
   const renderNextButton = () => {
     return (
       <View style={styles.buttonCircle}>
-        <Icon name="arrow-forward-outline" color={Colors.white} size={24} />
+        <Icon name="arrow-right" color={Colors.white} size={24} />
       </View>
     );
   };
@@ -119,7 +111,7 @@ const OnBoarding = (): ReactElement => {
   const renderDoneButton = () => {
     return (
       <View style={[styles.buttonCircle, styles.greenBtn]}>
-        <Icon name="checkmark-outline" color={Colors.white} size={24} />
+        <Icon name="check" color={Colors.white} size={24} />
       </View>
     );
   };

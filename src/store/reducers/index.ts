@@ -1,4 +1,4 @@
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
 import onBoardReducer from './onBoardReducer';
 
 /**
@@ -7,7 +7,7 @@ import onBoardReducer from './onBoardReducer';
  * @returns {Array} - State values.
  */
 const rootReducer = combineReducers({
-    onboard: onBoardReducer,
+  onboard: onBoardReducer,
 });
 
 export default rootReducer;

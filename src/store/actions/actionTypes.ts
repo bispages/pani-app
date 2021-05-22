@@ -1,3 +1,3 @@
 export const ONBOARD = {
-    ADD: 'ADD',
+  ADD: 'ADD',
 };

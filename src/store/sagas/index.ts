@@ -4,7 +4,7 @@
  * @description - Core saga function.
  */
 function* rootSaga() {
-    yield "rootSaga";
+  yield 'rootSaga';
 }
 
 export default rootSaga;
