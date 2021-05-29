@@ -7,7 +7,7 @@
  * @format
  */
 
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { View, StatusBar, StyleSheet } from 'react-native';
 import { enableScreens } from 'react-native-screens';
 import BootSplash from 'react-native-bootsplash';

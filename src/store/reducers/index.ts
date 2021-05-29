@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
+
 import onBoardReducer from './onBoardReducer';
+import authReducer from './authReducer';
 
 /**
  * @description - Root reducer.
@@ -8,6 +10,7 @@ import onBoardReducer from './onBoardReducer';
  */
 const rootReducer = combineReducers({
   onboard: onBoardReducer,
+  auth: authReducer,
 });
 
 export default rootReducer;

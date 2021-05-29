@@ -26,9 +26,12 @@ import Animated, {
   withTiming,
   Easing,
 } from 'react-native-reanimated';
+import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 
+import { login } from '../../store/actions';
+import useIsLoggedIn from '../../hooks/useIsLoggedIn';
 import Colors from '../../assets/colors';
 import styles from './Login.style';
 import Verifyphone from '../../assets/img/verifyphone.svg';
@@ -85,6 +88,8 @@ const VerifyPhone = ({ route: { params } }: routeParams) => {
   const [verifyActionDisabled, setVerifyActionDisabled] = useState(true);
   const refs: RefObject<TextInput>[] = [];
   const { appColors } = useTheme();
+  const dispatchAction = useDispatch();
+  const { user } = useIsLoggedIn();
 
   // For image scaling
   const animatedScaleStyles = useAnimatedStyle(() => {
@@ -170,7 +175,14 @@ const VerifyPhone = ({ route: { params } }: routeParams) => {
   const resend = () => null;
 
   const verify = () => {
-    navigation.navigate('userform');
+    const loginUser = { phone };
+    // TODO - Here we need to check user is already there or not by calling api.
+    // Remove user check from hook and call api.
+    if (user === null) {
+      navigation.navigate('userform', { phone });
+    } else {
+      dispatchAction(login(loginUser));
+    }
   };
 
   return (

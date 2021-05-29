@@ -19,7 +19,7 @@ const screenOptions = {
   ...TransitionPresets.ScaleFromCenterAndroid,
 };
 
-const LoginNavigationStack = () => (
+export const LoginNavigationStack = () => (
   <LoginStack.Navigator headerMode="none" screenOptions={{ ...screenOptions }}>
     <LoginStack.Screen name="login" component={Login} />
     <LoginStack.Screen name="verifyphone" component={VerifyPhone} />

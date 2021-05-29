@@ -1,17 +1,27 @@
 import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { User } from '../types';
 
 // Hook checks for login.
 const useIsLoggedIn = () => {
   const [loading, setLoading] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    // TODO call sideEffects for getting login values.
-    // setIsLoggedIn(true);
-    setTimeout(() => setLoading(false), 3000);
+    AsyncStorage.getItem('user').then(value => {
+      let user: User | null = null;
+      if (value !== null) {
+        user = JSON.parse(value);
+      }
+      setTimeout(() => {
+        setUser(user);
+        setLoading(false);
+      }, 1000);
+    });
   }, []);
 
-  return { loading, isLoggedIn };
+  return { loading, user };
 };
 
 export default useIsLoggedIn;

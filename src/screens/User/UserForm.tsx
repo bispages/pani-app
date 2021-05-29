@@ -14,16 +14,12 @@ import {
   useTheme,
   Snackbar,
 } from 'react-native-paper';
-import Animated, {
-  Extrapolate,
-  interpolate,
-  useAnimatedStyle,
-  useSharedValue,
-} from 'react-native-reanimated';
+import { useDispatch } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import ImagePicker from 'react-native-image-crop-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import styles from './User.style';
 import {
@@ -34,18 +30,20 @@ import {
   USERFORM_BOTSHEET_SNAPMID,
   USERFORM_BOTSHEET_SNAPMIN,
 } from '../../utils/constants';
+import { ItemList } from '../../types';
+import { login } from '../../store/actions';
 import useBackHandler from '../../hooks/useBackHandler';
 import { professionList } from '../../utils/professionList';
 import { categoryList } from '../../utils/categoryList';
 
-export type ItemList = {
-  id: string;
-  name: string;
-  selected?: boolean;
+type routeParams = {
+  route: { params: { phone: string } };
 };
 
-const UserForm = () => {
+const UserForm = ({ route: { params } }: routeParams) => {
+  const { phone } = params;
   const { appColors } = useTheme();
+  const dispatchAction = useDispatch();
   const [name, setName] = useState('');
   const [pincode, setPincode] = useState('');
   const [userType, setUserType] = useState(USERTYPE_USER);
@@ -133,7 +131,16 @@ const UserForm = () => {
   }, [name, pincode, selectedItems]);
 
   const saveDetails = () => {
-    const payload = { name, pincode, userType, category: selectedItems };
+    const userDetails = {
+      phone,
+      name,
+      pincode,
+      userType,
+      category: selectedItems,
+    };
+    AsyncStorage.setItem('user', JSON.stringify({ phone })).then(() => {
+      dispatchAction(login(userDetails));
+    });
   };
 
   const updateSelectedItems = (item: ItemList, index: number) => {
@@ -534,8 +541,10 @@ const UserForm = () => {
             )}
           </View>
           <View style={styles.itemsListContainer}>
-            {selectedItems.map((Item: ItemList) => (
-              <Text style={styles.itemList}>{Item.name}</Text>
+            {selectedItems.map((item: ItemList) => (
+              <Text key={item.id} style={styles.itemList}>
+                {item.name}
+              </Text>
             ))}
           </View>
           <View style={styles.savebtnContainer}>

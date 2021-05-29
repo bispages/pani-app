@@ -44,6 +44,7 @@
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
+    "@reduxjs/toolkit": "^1.5.1",
     "@types/jest": "^26.0.20",
     "@types/react-native": "^0.64.0",
     "@types/react-native-onboarding-swiper": "^1.1.1",
