@@ -38,6 +38,17 @@ export default StyleSheet.create({
   icon: {
     opacity: 0.5,
   },
+  editPic: {
+    position: 'absolute',
+    bottom: 15,
+    left: '55%',
+    width: 24,
+    height: 24,
+    borderRadius: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.secondary,
+  },
   formContainer: {
     flex: 0.7,
     width: '100%',
@@ -46,7 +57,7 @@ export default StyleSheet.create({
   },
   textContainer: {
     width: '100%',
-    marginBottom: 18,
+    marginBottom: 14,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -60,7 +71,7 @@ export default StyleSheet.create({
   radioContainer: {
     width: '70%',
     display: 'flex',
-    marginBottom: 18,
+    marginBottom: 14,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -77,9 +88,10 @@ export default StyleSheet.create({
   },
   categorybtnContainer: {
     width: '90%',
-    marginBottom: '12%',
+    marginBottom: 14,
     alignItems: 'center',
     justifyContent: 'center',
+    zIndex: 0,
   },
   categoryButton: {
     width: '100%',
@@ -87,6 +99,7 @@ export default StyleSheet.create({
   },
   savebtnContainer: {
     width: '100%',
+    zIndex: 0,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -96,12 +109,53 @@ export default StyleSheet.create({
   },
   listContainer: {
     flexWrap: 'wrap',
-    flexGrow: 0.5,
+    flexGrow: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
   dataListChip: {
     margin: 2,
+  },
+  itemsListContainer: {
+    width: '100%',
+    height: 20,
+    marginBottom: 14,
+    overflow: 'hidden',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  itemList: {
+    ...material.captionObject,
+    color: Colors.primary,
+    paddingHorizontal: 4,
+  },
+  panelTitle: {
+    ...material.titleObject,
+    height: 30,
+  },
+  panelSubtitle: {
+    ...material.body2Object,
+    color: 'gray',
+    height: 30,
+    marginBottom: 10,
+  },
+  panelButtonContainer: {
+    width: '100%',
+    padding: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.white,
+  },
+  panelButtonView: {
+    width: '90%',
+    marginBottom: 20,
+  },
+  panelButton: {
+    width: '100%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

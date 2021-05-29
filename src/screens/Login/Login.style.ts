@@ -49,7 +49,14 @@ export default StyleSheet.create({
   },
   checkboxContainer: {
     flex: 0.2,
+    flexDirection: 'row',
     width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  termsAcceptedText: {
+    marginLeft: 10,
+    height: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },

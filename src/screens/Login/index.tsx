@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
   Keyboard,
   NativeModules,
   useWindowDimensions,
+  Pressable,
 } from 'react-native';
-import { TextInput, Button, useTheme } from 'react-native-paper';
+import { TextInput, Button, useTheme, Checkbox } from 'react-native-paper';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
   Easing,
 } from 'react-native-reanimated';
-import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
+import * as Animatable from 'react-native-animatable';
 
 import useBackHandler from '../../hooks/useBackHandler';
 import Colors from '../../assets/colors';
@@ -25,6 +26,7 @@ import LoginPhone from '../../assets/img/loginphone.svg';
 const Login = () => {
   const INITIAL_SCALE = 1;
   const INITIAL_OFFSET = 0;
+  const checkboxView = useRef<Animatable.View & View>(null);
   const { appColors } = useTheme();
   const navigation = useNavigation();
   const { StatusBarManager } = NativeModules;
@@ -88,10 +90,9 @@ const Login = () => {
     setPhone(text.replace(/[^0-9]/g, ''));
   };
 
-  const acceptTerms = (isChecked?: boolean): void => {
-    Keyboard.dismiss();
-    if (isChecked !== undefined) setTermsAccepted(isChecked);
-    else setTermsAccepted(false);
+  const acceptTerms = (): void => {
+    setTermsAccepted(!termsAccepted);
+    if (checkboxView.current?.bounceIn) checkboxView.current.bounceIn(400);
   };
 
   useEffect(() => {
@@ -110,8 +111,10 @@ const Login = () => {
     };
   }, []);
 
-  const keyboardDidHide = () =>
+  const keyboardDidHide = () => {
+    Keyboard.dismiss();
     scaleImage(INITIAL_SCALE, INITIAL_OFFSET, INITIAL_OFFSET);
+  };
 
   const keyboardDidShow = () =>
     scaleImage(
@@ -172,7 +175,7 @@ const Login = () => {
             textContentType="telephoneNumber"
           />
         </View>
-        <BouncyCheckbox
+        {/* <BouncyCheckbox
           size={18}
           fillColor={Colors.secondary}
           unfillColor="transparent"
@@ -181,7 +184,20 @@ const Login = () => {
           style={styles.checkboxContainer}
           textStyle={styles.textStyle}
           iconStyle={styles.iconStyle}
-        />
+        /> */}
+        <Animatable.View ref={checkboxView} style={[styles.checkboxContainer]}>
+          <Checkbox
+            status={termsAccepted ? 'checked' : 'unchecked'}
+            onPress={acceptTerms}
+            uncheckedColor={appColors.greyfriendTwo}
+            color={appColors.secondary}
+          />
+          <Pressable style={[styles.termsAcceptedText]} onPress={acceptTerms}>
+            <Text style={[styles.textStyle]}>
+              I accept the terms and conditions.
+            </Text>
+          </Pressable>
+        </Animatable.View>
         <View style={styles.btnContainer}>
           <Button
             dark
