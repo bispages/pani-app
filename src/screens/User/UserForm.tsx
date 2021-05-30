@@ -18,7 +18,7 @@ import { useDispatch } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import ImagePicker from 'react-native-image-crop-picker';
+import ImagePicker, { Image } from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import styles from './User.style';
@@ -31,7 +31,7 @@ import {
   USERFORM_BOTSHEET_SNAPMIN,
 } from '../../utils/constants';
 import { ItemList } from '../../types';
-import { login } from '../../store/actions';
+import { login, saveUser } from '../../store/actions';
 import useBackHandler from '../../hooks/useBackHandler';
 import { professionList } from '../../utils/professionList';
 import { categoryList } from '../../utils/categoryList';
@@ -42,20 +42,20 @@ type routeParams = {
 
 const UserForm = ({ route: { params } }: routeParams) => {
   const { phone } = params;
-  const { colors, appColors } = useTheme();
-  const dispatchAction = useDispatch();
   const [name, setName] = useState('');
   const [pincode, setPincode] = useState('');
   const [userType, setUserType] = useState(USERTYPE_USER);
-  const [saveDisabled, setSaveDisabled] = useState(true);
+  const [image, setImage] = useState<Image | null>(null);
   const [selectedItems, setSelectedItems] = useState<ItemList[]>([]);
+  const [saveDisabled, setSaveDisabled] = useState(true);
   const [dataList, setDataList] = useState(professionList);
   const [showSnack, setShowSnack] = useState(false);
   const [message, setMessage] = useState('');
-  const [image, setImage] = useState('');
   const [isBotSheetActive, setIsBotSheetActive] = useState(false);
   const bottomSheet = useRef<BottomSheet>(null);
   const photoBottomSheet = useRef<BottomSheet>(null);
+  const { colors, appColors } = useTheme();
+  const dispatchAction = useDispatch();
 
   const snapPoints = useMemo(
     () => [
@@ -136,11 +136,13 @@ const UserForm = ({ route: { params } }: routeParams) => {
       name,
       pincode,
       userType,
+      image,
       category: selectedItems,
     };
-    // AsyncStorage.setItem('user', JSON.stringify({ phone })).then(() => {
-    dispatchAction(login(userDetails));
-    // });
+    AsyncStorage.setItem('user', JSON.stringify(userDetails)).then(() => {
+      dispatchAction(saveUser(userDetails));
+      dispatchAction(login({ phone }));
+    });
   };
 
   const updateSelectedItems = (item: ItemList, index: number) => {
@@ -228,8 +230,8 @@ const UserForm = ({ route: { params } }: routeParams) => {
       compressImageMaxHeight: 120,
       cropping: true,
       mediaType: 'photo',
-    }).then(image => {
-      setImage(image.path);
+    }).then((image: Image) => {
+      if ('path' in image) setImage(image);
       closeBotSheet(photoBottomSheet);
     });
     // .catch(err => console.log(err));
@@ -243,8 +245,8 @@ const UserForm = ({ route: { params } }: routeParams) => {
       mediaType: 'photo',
       cropperCircleOverlay: true,
       cropperActiveWidgetColor: colors.accent,
-    }).then(image => {
-      setImage(image.path);
+    }).then((image: Image) => {
+      if ('path' in image) setImage(image);
       closeBotSheet(photoBottomSheet);
     });
     // .catch(err => console.log(err));
@@ -337,7 +339,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
             <View>
               <ImageBackground
                 source={{
-                  uri: image,
+                  uri: image.path,
                 }}
                 style={[
                   styles.imgContainer,

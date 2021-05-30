@@ -121,9 +121,9 @@ const OnBoarding = (): ReactElement => {
   const onDone = () => {
     // User finished the introduction. Save this and show login.
     dispatch(onBoard());
-    // AsyncStorage.setItem('onboarded', '1').then(() => {
-    navigateToLogin();
-    // });
+    AsyncStorage.setItem('onboarded', '1').then(() => {
+      navigateToLogin();
+    });
   };
 
   return onBoarded ? (

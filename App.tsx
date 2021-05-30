@@ -7,7 +7,7 @@
  * @format
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { View, StatusBar, StyleSheet } from 'react-native';
 import { enableScreens } from 'react-native-screens';
 import BootSplash from 'react-native-bootsplash';
@@ -21,6 +21,8 @@ import {
   DefaultTheme as NavigationDefaultTheme,
   DarkTheme as NavigationDarkTheme,
 } from '@react-navigation/native';
+
+import ThemeContext from './src/components/Context';
 import RootNavigationContainer from './src/navigations/RootNavigationContainer';
 import configureStore from './src/store';
 import Colors from './src/assets/colors';
@@ -74,13 +76,24 @@ const App = () => {
     (async () => await BootSplash.hide({ fade: true }))();
   }, []);
 
+  const themeContext = useMemo(
+    () => ({
+      toggleTheme: () => {
+        setIsLightTheme(!isLightTheme);
+      },
+    }),
+    [isLightTheme],
+  );
+
   return (
     <StoreProvider store={store}>
       <PaperProvider theme={theme}>
-        <View style={styles.container}>
-          <StatusBar backgroundColor={Colors.dark} barStyle="light-content" />
-          <RootNavigationContainer theme={theme} />
-        </View>
+        <ThemeContext.Provider value={themeContext}>
+          <View style={styles.container}>
+            <StatusBar backgroundColor={Colors.dark} barStyle="light-content" />
+            <RootNavigationContainer theme={theme} />
+          </View>
+        </ThemeContext.Provider>
       </PaperProvider>
     </StoreProvider>
   );
