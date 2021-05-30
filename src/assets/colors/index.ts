@@ -32,6 +32,9 @@ const colors = {
   legendBg: '#EEF4FF',
   userScreenBg: '#E1EAE8',
   userBannerBg: '#CC4A42',
+  dark: '#101a31',
+  background: '#F5F5F6',
+  disabled: '#ffecb3',
 };
 
 export default colors;

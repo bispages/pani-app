@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import Colors from '../../assets/colors';
 import { material } from 'react-native-typography';
 
 export default StyleSheet.create({
@@ -8,7 +7,6 @@ export default StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.userScreenBg,
   },
   userBannerContainer: {
     flex: 0.3,
@@ -24,7 +22,6 @@ export default StyleSheet.create({
   imgContainer: {
     width: 120,
     borderWidth: 4,
-    borderColor: Colors.white,
     borderRadius: 120,
     height: 120,
     bottom: 20,
@@ -33,7 +30,6 @@ export default StyleSheet.create({
     overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.userScreenBg,
   },
   icon: {
     opacity: 0.5,
@@ -47,7 +43,6 @@ export default StyleSheet.create({
     borderRadius: 24,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.secondary,
   },
   formContainer: {
     flex: 0.7,
@@ -85,6 +80,7 @@ export default StyleSheet.create({
   },
   radioChip: {
     marginLeft: '12%',
+    borderWidth: 1,
   },
   categorybtnContainer: {
     width: '90%',
@@ -116,6 +112,7 @@ export default StyleSheet.create({
   },
   dataListChip: {
     margin: 2,
+    borderWidth: 1,
   },
   itemsListContainer: {
     width: '100%',
@@ -128,7 +125,6 @@ export default StyleSheet.create({
   },
   itemList: {
     ...material.captionObject,
-    color: Colors.primary,
     paddingHorizontal: 4,
   },
   panelTitle: {
@@ -146,7 +142,6 @@ export default StyleSheet.create({
     padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.white,
   },
   panelButtonView: {
     width: '90%',

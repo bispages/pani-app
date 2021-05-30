@@ -42,7 +42,7 @@ type routeParams = {
 
 const UserForm = ({ route: { params } }: routeParams) => {
   const { phone } = params;
-  const { appColors } = useTheme();
+  const { colors, appColors } = useTheme();
   const dispatchAction = useDispatch();
   const [name, setName] = useState('');
   const [pincode, setPincode] = useState('');
@@ -138,9 +138,9 @@ const UserForm = ({ route: { params } }: routeParams) => {
       userType,
       category: selectedItems,
     };
-    AsyncStorage.setItem('user', JSON.stringify({ phone })).then(() => {
-      dispatchAction(login(userDetails));
-    });
+    // AsyncStorage.setItem('user', JSON.stringify({ phone })).then(() => {
+    dispatchAction(login(userDetails));
+    // });
   };
 
   const updateSelectedItems = (item: ItemList, index: number) => {
@@ -194,26 +194,25 @@ const UserForm = ({ route: { params } }: routeParams) => {
                   ? [
                       styles.dataListChip,
                       {
-                        backgroundColor: appColors.secondary,
+                        backgroundColor: colors.accent,
+                        borderColor: colors.accent,
                       },
                     ]
                   : [
                       styles.dataListChip,
                       {
-                        borderWidth: 1,
-                        borderColor: appColors.greyfriendTwo,
+                        backgroundColor: colors.background,
+                        borderColor: colors.background,
                       },
                     ]
               }
               textStyle={
                 item.selected
-                  ? { color: appColors.white }
-                  : { color: appColors.primary }
+                  ? { color: colors.text }
+                  : { color: colors.primary }
               }
               selected={item?.selected ?? false}
-              selectedColor={
-                item.selected ? appColors.white : appColors.primary
-              }
+              selectedColor={item.selected ? colors.text : colors.primary}
               onPress={() => updateSelectedItems({ ...item }, index)}>
               {item.name}
             </Chip>
@@ -243,7 +242,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
       cropping: true,
       mediaType: 'photo',
       cropperCircleOverlay: true,
-      cropperActiveWidgetColor: appColors.secondary,
+      cropperActiveWidgetColor: colors.accent,
     }).then(image => {
       setImage(image.path);
       closeBotSheet(photoBottomSheet);
@@ -276,7 +275,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
               contentStyle={styles.panelButton}
               theme={{
                 colors: {
-                  primary: appColors.secondary,
+                  primary: colors.accent,
                 },
               }}>
               TAKE PHOTO
@@ -291,7 +290,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
               contentStyle={styles.panelButton}
               theme={{
                 colors: {
-                  primary: appColors.secondary,
+                  primary: colors.accent,
                 },
               }}>
               CHOOSE FROM LIBRARY
@@ -306,7 +305,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
               contentStyle={styles.panelButton}
               theme={{
                 colors: {
-                  primary: appColors.secondary,
+                  primary: colors.accent,
                 },
               }}>
               CANCEL
@@ -319,7 +318,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
 
   return (
     <View style={[styles.container]}>
-      <View style={[styles.container]}>
+      <View style={[styles.container, { backgroundColor: colors.background }]}>
         <View style={[styles.userBannerContainer]}>
           <LinearGradient
             start={{ x: 0, y: 0 }}
@@ -340,23 +339,35 @@ const UserForm = ({ route: { params } }: routeParams) => {
                 source={{
                   uri: image,
                 }}
-                style={[styles.imgContainer]}
+                style={[
+                  styles.imgContainer,
+                  {
+                    borderColor: appColors.white,
+                    backgroundColor: colors.background,
+                  },
+                ]}
               />
               <Pressable
                 disabled={isBotSheetActive}
                 onPress={() => showBotSheet(photoBottomSheet)}
-                style={[styles.editPic]}>
-                <Icon name="camera-plus" color={appColors.white} size={14} />
+                style={[styles.editPic, { backgroundColor: colors.accent }]}>
+                <Icon name="camera-plus" color={colors.text} size={14} />
               </Pressable>
             </View>
           ) : (
             <Pressable
               disabled={isBotSheetActive}
-              style={[styles.imgContainer]}
+              style={[
+                styles.imgContainer,
+                {
+                  borderColor: appColors.white,
+                  backgroundColor: colors.background,
+                },
+              ]}
               onPress={() => showBotSheet(photoBottomSheet)}>
               <Icon
                 name="camera-plus-outline"
-                color={appColors.primary}
+                color={colors.primary}
                 size={30}
                 style={styles.icon}
               />
@@ -377,14 +388,14 @@ const UserForm = ({ route: { params } }: routeParams) => {
                 <TextInput.Icon
                   name="account-outline"
                   style={styles.preText}
-                  color={appColors.secondary}
+                  color={colors.accent}
                 />
               }
               theme={{
                 colors: {
-                  primary: appColors.secondary,
-                  text: appColors.primary,
-                  background: appColors.white,
+                  primary: colors.accent,
+                  text: colors.primary,
+                  background: colors.text,
                 },
               }}
               style={[styles.textInput]}
@@ -408,14 +419,14 @@ const UserForm = ({ route: { params } }: routeParams) => {
                 <TextInput.Icon
                   name="map-marker-outline"
                   style={styles.preText}
-                  color={appColors.secondary}
+                  color={colors.accent}
                 />
               }
               theme={{
                 colors: {
-                  primary: appColors.secondary,
-                  text: appColors.primary,
-                  background: appColors.white,
+                  primary: colors.accent,
+                  text: colors.primary,
+                  background: colors.text,
                 },
               }}
               style={[styles.textInput]}
@@ -440,27 +451,26 @@ const UserForm = ({ route: { params } }: routeParams) => {
                     ? [
                         styles.radioChip,
                         {
-                          backgroundColor: appColors.secondary,
+                          backgroundColor: colors.accent,
+                          borderColor: colors.accent,
                         },
                       ]
                     : [
                         styles.radioChip,
                         {
-                          borderWidth: 1,
-                          borderColor: appColors.greyfriendTwo,
+                          backgroundColor: colors.background,
+                          borderColor: colors.accent,
                         },
                       ]
                 }
                 textStyle={
                   userType === USERTYPE_USER
-                    ? { color: appColors.white }
-                    : { color: appColors.primary }
+                    ? { color: colors.text }
+                    : { color: colors.primary }
                 }
                 selected={userType === USERTYPE_USER}
                 selectedColor={
-                  userType === USERTYPE_USER
-                    ? appColors.white
-                    : appColors.primary
+                  userType === USERTYPE_USER ? colors.text : colors.primary
                 }
                 onPress={() => {
                   Keyboard.dismiss();
@@ -477,27 +487,26 @@ const UserForm = ({ route: { params } }: routeParams) => {
                     ? [
                         styles.radioChip,
                         {
-                          backgroundColor: appColors.secondary,
+                          backgroundColor: colors.accent,
+                          borderColor: colors.accent,
                         },
                       ]
                     : [
                         styles.radioChip,
                         {
-                          borderWidth: 1,
-                          borderColor: appColors.greyfriendTwo,
+                          backgroundColor: colors.background,
+                          borderColor: colors.accent,
                         },
                       ]
                 }
                 textStyle={
                   userType === USERTYPE_SHOP
-                    ? { color: appColors.white }
-                    : { color: appColors.primary }
+                    ? { color: colors.text }
+                    : { color: colors.primary }
                 }
                 selected={userType === USERTYPE_SHOP}
                 selectedColor={
-                  userType === USERTYPE_SHOP
-                    ? appColors.white
-                    : appColors.primary
+                  userType === USERTYPE_SHOP ? colors.text : colors.primary
                 }
                 onPress={() => {
                   Keyboard.dismiss();
@@ -518,7 +527,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
                 contentStyle={styles.categoryButton}
                 theme={{
                   colors: {
-                    primary: appColors.secondary,
+                    primary: colors.accent,
                   },
                 }}>
                 ADD PROFESSION
@@ -533,7 +542,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
                 contentStyle={styles.categoryButton}
                 theme={{
                   colors: {
-                    primary: appColors.secondary,
+                    primary: colors.accent,
                   },
                 }}>
                 ADD CATEGORY
@@ -542,7 +551,9 @@ const UserForm = ({ route: { params } }: routeParams) => {
           </View>
           <View style={styles.itemsListContainer}>
             {selectedItems.map((item: ItemList) => (
-              <Text key={item.id} style={styles.itemList}>
+              <Text
+                key={item.id}
+                style={[styles.itemList, { color: colors.primary }]}>
                 {item.name}
               </Text>
             ))}
@@ -557,7 +568,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
               contentStyle={styles.saveButton}
               theme={{
                 colors: {
-                  primary: appColors.secondary,
+                  primary: colors.accent,
                 },
               }}>
               SAVE
@@ -570,7 +581,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
         duration={1000}
         onDismiss={onDismissSnackBar}
         theme={{
-          colors: { text: appColors.white, onSurface: appColors.error },
+          colors: { surface: colors.text, onSurface: colors.error },
         }}>
         {message}
       </Snackbar>

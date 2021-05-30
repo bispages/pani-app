@@ -12,8 +12,15 @@ import { View, StatusBar, StyleSheet } from 'react-native';
 import { enableScreens } from 'react-native-screens';
 import BootSplash from 'react-native-bootsplash';
 import { Provider as StoreProvider } from 'react-redux';
-import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
-
+import {
+  DefaultTheme as PaperDefaultTheme,
+  DarkTheme as PaperDarkTheme,
+  Provider as PaperProvider,
+} from 'react-native-paper';
+import {
+  DefaultTheme as NavigationDefaultTheme,
+  DarkTheme as NavigationDarkTheme,
+} from '@react-navigation/native';
 import RootNavigationContainer from './src/navigations/RootNavigationContainer';
 import configureStore from './src/store';
 import Colors from './src/assets/colors';
@@ -29,15 +36,40 @@ declare global {
   }
 }
 
-const theme = {
-  ...DefaultTheme,
+const lightTheme = {
+  ...NavigationDefaultTheme,
+  ...PaperDefaultTheme,
   colors: {
-    ...DefaultTheme.colors,
+    ...NavigationDefaultTheme.colors,
+    ...PaperDefaultTheme.colors,
+    background: Colors.white,
+    text: Colors.dark,
+  },
+  appColors: Colors,
+};
+
+const defaultTheme = {
+  ...NavigationDarkTheme,
+  ...PaperDarkTheme,
+  colors: {
+    ...NavigationDarkTheme.colors,
+    ...PaperDarkTheme.colors,
+    primary: Colors.primary,
+    accent: Colors.secondary,
+    background: Colors.background,
+    disabled: Colors.disabled,
+    placeholder: Colors.greyfriendTwo,
+    text: Colors.white,
+    error: Colors.error,
+    card: Colors.dark,
   },
   appColors: Colors,
 };
 
 const App = () => {
+  const [isLightTheme, setIsLightTheme] = React.useState(false);
+  const theme = isLightTheme ? lightTheme : defaultTheme;
+
   useEffect(() => {
     (async () => await BootSplash.hide({ fade: true }))();
   }, []);
@@ -46,8 +78,8 @@ const App = () => {
     <StoreProvider store={store}>
       <PaperProvider theme={theme}>
         <View style={styles.container}>
-          <StatusBar barStyle="light-content" />
-          <RootNavigationContainer />
+          <StatusBar backgroundColor={Colors.dark} barStyle="light-content" />
+          <RootNavigationContainer theme={theme} />
         </View>
       </PaperProvider>
     </StoreProvider>

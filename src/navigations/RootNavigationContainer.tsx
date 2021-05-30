@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, Theme } from '@react-navigation/native';
 import {
   createStackNavigator,
   TransitionPresets,
@@ -19,7 +19,7 @@ import { RootState } from '../store';
 
 const RootStack = createStackNavigator();
 
-const RootNavigationContainer = () => {
+const RootNavigationContainer = ({ theme }: { theme: Theme }) => {
   const dispatch = useDispatch();
   const { onBoarded } = useSelector((state: RootState) => state.onboard);
   const { login } = useSelector((state: RootState) => state.auth);
@@ -43,7 +43,7 @@ const RootNavigationContainer = () => {
   return loading ? (
     <Splash />
   ) : (
-    <NavigationContainer>
+    <NavigationContainer theme={theme}>
       {user || login ? (
         <AppNavigationDrawer />
       ) : (

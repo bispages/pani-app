@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import Colors from '../../assets/colors';
 import { material } from 'react-native-typography';
 
 export default StyleSheet.create({
@@ -29,28 +28,17 @@ export default StyleSheet.create({
     textAlign: 'center',
     paddingHorizontal: 20,
   },
-  dotStyle: {
-    backgroundColor: Colors.spotOne,
-  },
-  activeDotStyle: {
-    backgroundColor: Colors.secondary,
-  },
   skip: {
     paddingTop: 15,
   },
   skipTxt: {
     ...material.body1Object,
-    color: Colors.secondary,
   },
   buttonCircle: {
     width: 40,
     height: 40,
-    backgroundColor: Colors.secondary,
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  greenBtn: {
-    backgroundColor: Colors.skipgradientTwo,
   },
 });

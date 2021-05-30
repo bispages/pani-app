@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import Colors from '../../assets/colors';
 import { material } from 'react-native-typography';
 
 export default StyleSheet.create({
@@ -25,11 +24,9 @@ export default StyleSheet.create({
   },
   heading: {
     ...material.headlineObject,
-    color: Colors.primary,
   },
   subHeading: {
     ...material.captionObject,
-    color: Colors.primary,
   },
   inputset: {
     flex: 0.2,
@@ -42,7 +39,6 @@ export default StyleSheet.create({
     paddingHorizontal: 8,
     marginRight: 8,
     borderRightWidth: 2,
-    borderRightColor: Colors.greyfriendTwo,
   },
   textInput: {
     width: '70%',
@@ -62,12 +58,7 @@ export default StyleSheet.create({
   },
   textStyle: {
     ...material.captionObject,
-    color: Colors.primary,
     textDecorationLine: 'none',
-  },
-  iconStyle: {
-    borderRadius: 4,
-    borderColor: Colors.secondary,
   },
   btnContainer: {
     flex: 0.3,
@@ -122,7 +113,6 @@ export default StyleSheet.create({
   resendText: {
     padding: 4,
     ...material.buttonObject,
-    color: Colors.primary,
   },
   resendBtn: {
     padding: 4,
@@ -130,6 +120,5 @@ export default StyleSheet.create({
   },
   resendBtnTxt: {
     ...material.buttonObject,
-    color: Colors.secondary,
   },
 });

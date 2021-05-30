@@ -1,6 +1,7 @@
 import React, { ReactElement, useCallback, useEffect } from 'react';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { View, Text } from 'react-native';
+import { useTheme } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -11,48 +12,9 @@ import useBackHandler from '../../hooks/useBackHandler';
 import { onBoard } from '../../store/actions';
 import { RootState } from '../../store';
 import styles from './OnBoarding.style';
-import Colors from '../../assets/colors';
 import OnBoardOne from '../../assets/img/onboardscreenimg1.svg';
 import OnBoardTwo from '../../assets/img/onboardscreenimg2.svg';
 import OnBoardThree from '../../assets/img/onboardscreenimg3.svg';
-
-// Onboarding Slides.
-const slides = [
-  {
-    key: 'OnBoardOne',
-    title: 'Need Materials?',
-    text:
-      'Select needed items from list and order it with your favourite shop or nearby shop',
-    image: (
-      <View style={styles.image}>
-        <OnBoardOne />
-      </View>
-    ),
-    backgroundColor: Colors.onBoardOne,
-  },
-  {
-    key: 'OnBoardTwo',
-    title: 'Need Tradesman?',
-    text: 'Search for nearby technicians and laborers',
-    image: (
-      <View style={styles.image}>
-        <OnBoardTwo />
-      </View>
-    ),
-    backgroundColor: Colors.onBoardTwo,
-  },
-  {
-    key: 'OnBoardThree',
-    title: 'Need Material Estimate?',
-    text: 'Select the number of materials and get estimate with just a click',
-    image: (
-      <View style={styles.image}>
-        <OnBoardThree />
-      </View>
-    ),
-    backgroundColor: Colors.onBoardThree,
-  },
-];
 
 type Item = {
   key: string;
@@ -63,9 +25,48 @@ type Item = {
 };
 
 const OnBoarding = (): ReactElement => {
+  const { colors, appColors } = useTheme();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { onBoarded } = useSelector((state: RootState) => state.onboard);
+
+  // Onboarding Slides.
+  const slides = [
+    {
+      key: 'OnBoardOne',
+      title: 'Need Materials?',
+      text:
+        'Select needed items from list and order it with your favourite shop or nearby shop',
+      image: (
+        <View style={styles.image}>
+          <OnBoardOne />
+        </View>
+      ),
+      backgroundColor: appColors.onBoardOne,
+    },
+    {
+      key: 'OnBoardTwo',
+      title: 'Need Tradesman?',
+      text: 'Search for nearby technicians and laborers',
+      image: (
+        <View style={styles.image}>
+          <OnBoardTwo />
+        </View>
+      ),
+      backgroundColor: appColors.onBoardTwo,
+    },
+    {
+      key: 'OnBoardThree',
+      title: 'Need Material Estimate?',
+      text: 'Select the number of materials and get estimate with just a click',
+      image: (
+        <View style={styles.image}>
+          <OnBoardThree />
+        </View>
+      ),
+      backgroundColor: appColors.onBoardThree,
+    },
+  ];
 
   // Adds BackHandler hook.
   useBackHandler();
@@ -83,7 +84,7 @@ const OnBoarding = (): ReactElement => {
     return (
       <LinearGradient
         locations={[0, 0.99]}
-        colors={[item.backgroundColor, Colors.naturalTwo]}
+        colors={[item.backgroundColor, appColors.naturalTwo]}
         style={[styles.slide]}>
         <View style={styles.imageContainer}>{item.image}</View>
         <Text style={[styles.title]}>{item.title}</Text>
@@ -94,8 +95,8 @@ const OnBoarding = (): ReactElement => {
 
   const renderNextButton = () => {
     return (
-      <View style={styles.buttonCircle}>
-        <Icon name="arrow-right" color={Colors.white} size={24} />
+      <View style={[styles.buttonCircle, { backgroundColor: colors.accent }]}>
+        <Icon name="arrow-right" color={colors.text} size={24} />
       </View>
     );
   };
@@ -103,15 +104,16 @@ const OnBoarding = (): ReactElement => {
   const renderSkipButton = () => {
     return (
       <View style={styles.skip}>
-        <Text style={styles.skipTxt}>Skip</Text>
+        <Text style={[styles.skipTxt, { color: colors.accent }]}>Skip</Text>
       </View>
     );
   };
 
   const renderDoneButton = () => {
     return (
-      <View style={[styles.buttonCircle, styles.greenBtn]}>
-        <Icon name="check" color={Colors.white} size={24} />
+      <View
+        style={[styles.buttonCircle, { backgroundColor: appColors.success }]}>
+        <Icon name="check" color={colors.text} size={24} />
       </View>
     );
   };
@@ -119,9 +121,9 @@ const OnBoarding = (): ReactElement => {
   const onDone = () => {
     // User finished the introduction. Save this and show login.
     dispatch(onBoard());
-    AsyncStorage.setItem('onboarded', '1').then(() => {
-      navigateToLogin();
-    });
+    // AsyncStorage.setItem('onboarded', '1').then(() => {
+    navigateToLogin();
+    // });
   };
 
   return onBoarded ? (
@@ -132,11 +134,11 @@ const OnBoarding = (): ReactElement => {
       renderItem={renderItems}
       data={slides}
       onDone={onDone}
-      dotStyle={styles.dotStyle}
+      dotStyle={{ backgroundColor: colors.disabled }}
       renderNextButton={renderNextButton}
       renderSkipButton={renderSkipButton}
       renderDoneButton={renderDoneButton}
-      activeDotStyle={styles.activeDotStyle}
+      activeDotStyle={{ backgroundColor: colors.accent }}
     />
   );
 };

@@ -19,7 +19,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 
 import useBackHandler from '../../hooks/useBackHandler';
-import Colors from '../../assets/colors';
 import styles from './Login.style';
 import LoginPhone from '../../assets/img/loginphone.svg';
 
@@ -27,7 +26,7 @@ const Login = () => {
   const INITIAL_SCALE = 1;
   const INITIAL_OFFSET = 0;
   const checkboxView = useRef<Animatable.View & View>(null);
-  const { appColors } = useTheme();
+  const { colors, appColors } = useTheme();
   const navigation = useNavigation();
   const { StatusBarManager } = NativeModules;
   const windowHeight = useWindowDimensions().height;
@@ -126,7 +125,7 @@ const Login = () => {
   return (
     <LinearGradient
       locations={[0, 0.99]}
-      colors={[Colors.loginBg, Colors.naturalTwo]}
+      colors={[appColors.loginBg, appColors.naturalTwo]}
       style={[styles.login]}>
       <Animated.View style={[styles.image, animatedImageTranslateStyles]}>
         <Animated.View style={[{ width: '100%' }, animatedScaleStyles]}>
@@ -147,19 +146,22 @@ const Login = () => {
             left={
               <TextInput.Affix
                 text="+91"
-                textStyle={styles.preText}
+                textStyle={[
+                  styles.preText,
+                  { borderRightColor: appColors.greyfriendTwo },
+                ]}
                 theme={{
                   colors: {
-                    primary: appColors.primary,
+                    text: colors.primary,
                   },
                 }}
               />
             }
             theme={{
               colors: {
-                primary: appColors.secondary,
-                text: appColors.primary,
-                background: appColors.white,
+                primary: colors.accent,
+                text: colors.primary,
+                background: colors.text,
               },
             }}
             style={[styles.textInput]}
@@ -175,16 +177,6 @@ const Login = () => {
             textContentType="telephoneNumber"
           />
         </View>
-        {/* <BouncyCheckbox
-          size={18}
-          fillColor={Colors.secondary}
-          unfillColor="transparent"
-          text="I accept the terms and conditions."
-          onPress={acceptTerms}
-          style={styles.checkboxContainer}
-          textStyle={styles.textStyle}
-          iconStyle={styles.iconStyle}
-        /> */}
         <Animatable.View ref={checkboxView} style={[styles.checkboxContainer]}>
           <Checkbox
             status={termsAccepted ? 'checked' : 'unchecked'}
@@ -208,7 +200,7 @@ const Login = () => {
             contentStyle={styles.button}
             theme={{
               colors: {
-                primary: appColors.secondary,
+                primary: colors.accent,
               },
             }}>
             GENERATE OTP

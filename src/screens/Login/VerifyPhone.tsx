@@ -32,7 +32,6 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import { login } from '../../store/actions';
 import useIsLoggedIn from '../../hooks/useIsLoggedIn';
-import Colors from '../../assets/colors';
 import styles from './Login.style';
 import Verifyphone from '../../assets/img/verifyphone.svg';
 
@@ -87,7 +86,7 @@ const VerifyPhone = ({ route: { params } }: routeParams) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [verifyActionDisabled, setVerifyActionDisabled] = useState(true);
   const refs: RefObject<TextInput>[] = [];
-  const { appColors } = useTheme();
+  const { colors, appColors } = useTheme();
   const dispatchAction = useDispatch();
   const { user } = useIsLoggedIn();
 
@@ -188,7 +187,7 @@ const VerifyPhone = ({ route: { params } }: routeParams) => {
   return (
     <LinearGradient
       locations={[0, 0.99]}
-      colors={[Colors.loginBg, Colors.naturalTwo]}
+      colors={[appColors.loginBg, appColors.naturalTwo]}
       style={[styles.login]}>
       <Animated.View style={[styles.image, animatedImageTranslateStyles]}>
         <Animated.View style={[{ width: '100%' }, animatedScaleStyles]}>
@@ -215,14 +214,12 @@ const VerifyPhone = ({ route: { params } }: routeParams) => {
                   mode="outlined"
                   theme={{
                     colors: {
-                      primary: appColors.secondary,
-                      text: appColors.primary,
-                      background: appColors.white,
+                      primary: colors.accent,
+                      text: colors.primary,
+                      background: colors.text,
                     },
                   }}
                   style={[styles.otpTextInput]}
-                  selectionColor={appColors.secondary}
-                  underlineColor={appColors.primary}
                   keyboardType="numeric"
                   maxLength={1}
                   onChangeText={text => onTextChange(key, text, index)}
@@ -240,7 +237,9 @@ const VerifyPhone = ({ route: { params } }: routeParams) => {
             <Text style={styles.resendText}>Didn't received OTP?</Text>
             <View style={styles.resendBtn}>
               <TouchableOpacity onPress={resend}>
-                <Text style={styles.resendBtnTxt}>RESEND</Text>
+                <Text style={[styles.resendBtnTxt, { color: colors.accent }]}>
+                  RESEND
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
