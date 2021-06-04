@@ -203,8 +203,8 @@ const UserForm = ({ route: { params } }: routeParams) => {
                   : [
                       styles.dataListChip,
                       {
-                        backgroundColor: colors.background,
-                        borderColor: colors.background,
+                        backgroundColor: colors.text,
+                        borderColor: colors.disabled,
                       },
                     ]
               }
@@ -345,7 +345,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
                   styles.imgContainer,
                   {
                     borderColor: appColors.white,
-                    backgroundColor: colors.background,
+                    backgroundColor: appColors.dimwhite,
                   },
                 ]}
               />
@@ -363,7 +363,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
                 styles.imgContainer,
                 {
                   borderColor: appColors.white,
-                  backgroundColor: colors.background,
+                  backgroundColor: appColors.dimwhite,
                 },
               ]}
               onPress={() => showBotSheet(photoBottomSheet)}>
@@ -460,8 +460,8 @@ const UserForm = ({ route: { params } }: routeParams) => {
                     : [
                         styles.radioChip,
                         {
-                          backgroundColor: colors.background,
-                          borderColor: colors.accent,
+                          backgroundColor: colors.text,
+                          borderColor: colors.disabled,
                         },
                       ]
                 }
@@ -496,8 +496,8 @@ const UserForm = ({ route: { params } }: routeParams) => {
                     : [
                         styles.radioChip,
                         {
-                          backgroundColor: colors.background,
-                          borderColor: colors.accent,
+                          backgroundColor: colors.text,
+                          borderColor: colors.disabled,
                         },
                       ]
                 }

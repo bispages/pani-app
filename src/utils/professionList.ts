@@ -1,94 +1,62 @@
 export const professionList = [
   {
-    id: '92iijs7yta',
-    name: 'Ondo',
+    id: '1',
+    name: 'Electrician & Wiremen',
   },
   {
-    id: 'a0s0a8ssbsd',
-    name: 'Ogun',
+    id: '2',
+    name: 'Plumber',
   },
   {
-    id: '16hbajsabsd',
-    name: 'Calabar',
+    id: '3',
+    name: 'Mason',
   },
   {
-    id: 'nahs75a5sg',
-    name: 'Lagos',
+    id: '4',
+    name: 'Aluminium Fabricator',
   },
   {
-    id: '667atsas',
-    name: 'Maiduguri',
+    id: '5',
+    name: 'Doctor',
   },
   {
-    id: 'hsyasajs',
-    name: 'Anambra',
+    id: '6',
+    name: 'Advocate',
   },
   {
-    id: 'djsjudksjd',
-    name: 'Benue',
+    id: '7',
+    name: 'Barber',
   },
   {
-    id: 'sdhyaysdj',
-    name: 'Kaduna',
+    id: '8',
+    name: 'Teacher',
   },
   {
-    id: 'suudydjsjd',
-    name: 'Abuja',
+    id: '9',
+    name: 'Civil Engineer',
   },
   {
-    id: '92iijs7wyta',
-    name: 'Ondo',
+    id: '10',
+    name: 'Software Engineer',
   },
   {
-    id: 'a0s0ae8ssbsd',
-    name: 'Ogun',
+    id: '11',
+    name: 'Two wheeler Mechanic',
   },
   {
-    id: '16hbawjsabsd',
-    name: 'Calabar',
+    id: '12',
+    name: 'Mechanical Engineer',
   },
   {
-    id: 'nahse75a5sg',
-    name: 'Lagos',
+    id: '13',
+    name: 'Laborer',
   },
   {
-    id: '667artsas',
-    name: 'Maiduguri',
+    id: '14',
+    name: 'Carpenter',
   },
   {
-    id: 'hsyarsajs',
-    name: 'Anambra',
-  },
-  {
-    id: 'djswjudksjd',
-    name: 'Benue',
-  },
-  {
-    id: 'sdhyaeysdj',
-    name: 'Kaduna',
-  },
-  {
-    id: 'suudyrdjsjd',
-    name: 'Abuja',
-  },
-  {
-    id: '667arutsas',
-    name: 'Maiduguri',
-  },
-  {
-    id: 'hsyarshajs',
-    name: 'Anambra',
-  },
-  {
-    id: 'djswjrudksjd',
-    name: 'Benue',
-  },
-  {
-    id: 'sdhyaeiysdj',
-    name: 'Kaduna',
-  },
-  {
-    id: 'suudydrdjsjd',
-    name: 'Abuja',
+    id: '15',
+    name: 'Tile Works',
   },
 ];

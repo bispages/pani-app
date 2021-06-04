@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ContextType } from 'react';
 import { View } from 'react-native';
 import {
   useTheme,
@@ -36,32 +36,55 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
 
   return (
     <View style={{ flex: 1 }}>
+      <View style={styles.userInfoSection}>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: 10,
+            alignItems: 'center',
+          }}>
+          <View style={{ paddingTop: 10 }}>
+            {user?.image?.path ? (
+              <Avatar.Image source={{ uri: user?.image?.path }} size={60} />
+            ) : (
+              <Avatar.Icon size={60} icon="account-circle" />
+            )}
+          </View>
+          <View style={{ marginLeft: 15, flexDirection: 'column' }}>
+            <Title style={styles.title}>{user?.name ?? 'Name'}</Title>
+            <Caption style={styles.caption}>{`+91-${
+              user?.phone ?? ''
+            }`}</Caption>
+          </View>
+        </View>
+      </View>
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
-          <View style={styles.userInfoSection}>
-            <View style={{ flexDirection: 'row', marginTop: 15 }}>
-              {user?.image?.path ? (
-                <Avatar.Image source={{ uri: user?.image?.path }} size={60} />
-              ) : (
-                <Avatar.Icon size={60} icon="account-circle" />
-              )}
-              <View style={{ marginLeft: 15, flexDirection: 'column' }}>
-                <Title style={styles.title}>John Doe</Title>
-                <Caption style={styles.caption}>@j_doe</Caption>
-              </View>
-            </View>
-          </View>
           <Drawer.Section style={styles.drawerSection}>
             <DrawerItem
               icon={({ color, size }) => (
-                <Icon name="home-outline" color={color} size={size} />
+                <Icon name="magnify" color={color} size={size} />
               )}
-              focused={routeNames[index] === 'Home'}
+              focused={routeNames[index] === 'Search'}
+              inactiveTintColor={colors.text}
               activeTintColor={colors.primary}
               activeBackgroundColor={colors.accent}
-              label="Home"
+              label="Search"
               onPress={() => {
-                navigation.navigate('Home');
+                navigation.navigate('Search');
+              }}
+            />
+            <DrawerItem
+              icon={({ color, size }) => (
+                <Icon name="briefcase-outline" color={color} size={size} />
+              )}
+              focused={routeNames[index] === 'Work'}
+              inactiveTintColor={colors.text}
+              activeTintColor={colors.primary}
+              activeBackgroundColor={colors.accent}
+              label="Work"
+              onPress={() => {
+                navigation.navigate('Work');
               }}
             />
             <DrawerItem
@@ -69,6 +92,7 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
                 <Icon name="account-outline" color={color} size={size} />
               )}
               focused={routeNames[index] === 'Profile'}
+              inactiveTintColor={colors.text}
               activeTintColor={colors.primary}
               activeBackgroundColor={colors.accent}
               label="Profile"
@@ -78,21 +102,10 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
             />
             <DrawerItem
               icon={({ color, size }) => (
-                <Icon name="bookmark-outline" color={color} size={size} />
-              )}
-              focused={routeNames[index] === 'Bookmarks'}
-              activeTintColor={colors.primary}
-              activeBackgroundColor={colors.accent}
-              label="Bookmarks"
-              onPress={() => {
-                navigation.navigate('Bookmarks');
-              }}
-            />
-            <DrawerItem
-              icon={({ color, size }) => (
                 <Icon name="cog-outline" color={color} size={size} />
               )}
               focused={routeNames[index] === 'Settings'}
+              inactiveTintColor={colors.text}
               activeTintColor={colors.primary}
               activeBackgroundColor={colors.accent}
               label="Settings"
@@ -105,6 +118,7 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
                 <Icon name="account-check-outline" color={color} size={size} />
               )}
               focused={routeNames[index] === 'Support'}
+              inactiveTintColor={colors.text}
               activeTintColor={colors.primary}
               activeBackgroundColor={colors.accent}
               label="Support"
@@ -132,6 +146,9 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
           )}
           label="Sign Out"
           onPress={() => {}}
+          inactiveTintColor={colors.text}
+          activeTintColor={colors.primary}
+          activeBackgroundColor={colors.accent}
         />
       </Drawer.Section>
     </View>

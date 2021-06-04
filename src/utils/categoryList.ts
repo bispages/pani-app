@@ -1,38 +1,42 @@
 export const categoryList = [
   {
-    id: '92iijs7y1ta',
-    name: 'Ondo1',
+    id: '1',
+    name: 'Electrical & Hardwares',
   },
   {
-    id: 'a0s0a8ssb2sd',
-    name: 'Ogun2',
+    id: '2',
+    name: 'Plumbing',
   },
   {
-    id: '16hbajsabs3d',
-    name: 'Calabar3',
+    id: '3',
+    name: 'Home Furnishing',
   },
   {
-    id: 'nahs75a5sg4',
-    name: 'Lagos4',
+    id: '4',
+    name: 'Aluminum Fabrication',
   },
   {
-    id: '667atsas5',
-    name: 'Maiduguri5',
+    id: '5',
+    name: 'Medical Stores',
   },
   {
-    id: 'hsyasajs6',
-    name: 'Anambra6',
+    id: '6',
+    name: 'Cosmetics & Beauty Parlour',
   },
   {
-    id: 'djsjudksj7d',
-    name: 'Benue7',
+    id: '7',
+    name: 'Bulding Materials',
   },
   {
-    id: 'sdhyaysdj8',
-    name: 'Kaduna8',
+    id: '8',
+    name: 'Tuition Classes',
   },
   {
-    id: 'suudydjs9jd',
-    name: 'Abuja9',
+    id: '9',
+    name: 'Software Company',
+  },
+  {
+    id: '10',
+    name: 'Auto Garage',
   },
 ];

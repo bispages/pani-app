@@ -21,6 +21,7 @@ import {
   DefaultTheme as NavigationDefaultTheme,
   DarkTheme as NavigationDarkTheme,
 } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import ThemeContext from './src/components/Context';
 import RootNavigationContainer from './src/navigations/RootNavigationContainer';
@@ -44,8 +45,14 @@ const lightTheme = {
   colors: {
     ...NavigationDefaultTheme.colors,
     ...PaperDefaultTheme.colors,
-    background: Colors.white,
+    primary: Colors.white,
+    accent: Colors.primary,
+    background: Colors.background,
+    disabled: Colors.disabled,
+    placeholder: Colors.greyfriendTwo,
     text: Colors.dark,
+    error: Colors.error,
+    card: Colors.white,
   },
   appColors: Colors,
 };
@@ -56,20 +63,26 @@ const defaultTheme = {
   colors: {
     ...NavigationDarkTheme.colors,
     ...PaperDarkTheme.colors,
-    primary: Colors.primary,
+    primary: Colors.dark,
     accent: Colors.secondary,
-    background: Colors.background,
+    background: Colors.primary,
     disabled: Colors.disabled,
     placeholder: Colors.greyfriendTwo,
     text: Colors.white,
     error: Colors.error,
     card: Colors.dark,
+    surface: Colors.primary,
   },
   appColors: Colors,
 };
 
 const App = () => {
-  const [isLightTheme, setIsLightTheme] = React.useState(false);
+  let userTheme = false;
+  AsyncStorage.getItem('theme').then(value => {
+    userTheme = value ? JSON.parse(value).isLightTheme : false;
+    setIsLightTheme(userTheme);
+  });
+  const [isLightTheme, setIsLightTheme] = React.useState(userTheme);
   const theme = isLightTheme ? lightTheme : defaultTheme;
 
   useEffect(() => {
@@ -79,7 +92,12 @@ const App = () => {
   const themeContext = useMemo(
     () => ({
       toggleTheme: () => {
-        setIsLightTheme(!isLightTheme);
+        AsyncStorage.setItem(
+          'theme',
+          JSON.stringify({ isLightTheme: !isLightTheme }),
+        ).then(() => {
+          setIsLightTheme(!isLightTheme);
+        });
       },
     }),
     [isLightTheme],

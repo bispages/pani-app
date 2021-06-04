@@ -35,6 +35,7 @@ const colors = {
   dark: '#101a31',
   background: '#F5F5F6',
   disabled: '#ffecb3',
+  primaryLight: '#646b88',
 };
 
 export default colors;

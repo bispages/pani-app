@@ -1,3 +1,4 @@
+import { FunctionComponent } from 'react';
 import { Image } from 'react-native-image-crop-picker';
 
 export type Settings = {
@@ -18,3 +19,12 @@ export type User = {
   image?: Image | null;
   category?: ItemList[];
 };
+
+export type MapView = {
+  [key: string]: FunctionComponent;
+};
+
+export type DataListView = {
+  id: string;
+  component: FunctionComponent;
+}[];
