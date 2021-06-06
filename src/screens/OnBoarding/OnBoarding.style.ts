@@ -34,7 +34,7 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
   square: {
-    backgroundColor: '#fff1c9',
+    backgroundColor: '#FFFAEE',
     borderRadius: 80,
     position: 'absolute',
   },

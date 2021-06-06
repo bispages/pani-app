@@ -34,7 +34,7 @@ type Item = {
   image: ImageProps;
 };
 
-const backGroundColors = ['#D3A518', '#646b88', '#39405B', '#101a31'];
+const backGroundColors = ['#575E6E', '#3F475A', '#273045', '#101a31'];
 // Onboarding Slides.
 const slides = [
   {
