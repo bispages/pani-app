@@ -7,37 +7,57 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  title: {
-    ...material.headlineObject,
-    flex: 0.2,
-    textAlignVertical: 'center',
-  },
-  imageContainer: {
-    flex: 0.5,
-    alignItems: 'center',
+  container: {
+    flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
   },
-  image: {
-    opacity: 0.8,
-    borderRadius: 10,
-    overflow: 'hidden',
+  screen: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  text: {
-    ...material.subheadingObject,
-    flex: 0.3,
+  contentContainer: { paddingBottom: 10 },
+  imageContainer: { flex: 0.7, justifyContent: 'center' },
+  image: { resizeMode: 'contain' },
+  textContainer: { flex: 0.3, alignItems: 'center', padding: 10 },
+  title: {
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 10,
+    color: 'white',
     textAlign: 'center',
-    paddingHorizontal: 20,
   },
-  skip: {
-    paddingTop: 15,
+  description: {
+    fontSize: 14,
+    fontWeight: '300',
+    color: 'white',
+    textAlign: 'center',
   },
-  skipTxt: {
-    ...material.body1Object,
+  square: {
+    backgroundColor: '#fff1c9',
+    borderRadius: 80,
+    position: 'absolute',
   },
-  buttonCircle: {
+  circleContainer: { position: 'absolute', bottom: 20, flexDirection: 'row' },
+  circle: {
+    height: 8,
+    width: 8,
+    borderRadius: 8,
+    margin: 10,
+    backgroundColor: '#fff',
+  },
+  buttonCircleContainer: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
     width: 40,
     height: 40,
     borderRadius: 20,
+    overflow: 'hidden',
+  },
+  buttonCircle: {
+    width: '100%',
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
