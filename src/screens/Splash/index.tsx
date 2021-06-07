@@ -6,7 +6,6 @@ import Animated, {
   withTiming,
   Easing,
 } from 'react-native-reanimated';
-import { material } from 'react-native-typography';
 import LottieView from 'lottie-react-native';
 
 import {
@@ -51,7 +50,7 @@ const Splash = (): ReactElement => {
         <Text
           style={[
             { transform: [{ translateY: TEXTLOADERPOSITIONFROMTOP }] },
-            material.body1White,
+            { fontSize: 12, fontWeight: '400', color: 'white' },
           ]}>
           Loading
         </Text>

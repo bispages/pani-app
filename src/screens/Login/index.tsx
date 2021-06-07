@@ -1,13 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
-  Text,
   Keyboard,
-  NativeModules,
   useWindowDimensions,
   Pressable,
+  StyleSheet,
 } from 'react-native';
-import { TextInput, Button, useTheme, Checkbox } from 'react-native-paper';
+import {
+  TextInput,
+  Text,
+  Button,
+  useTheme,
+  Checkbox,
+} from 'react-native-paper';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -15,7 +20,6 @@ import Animated, {
   Easing,
 } from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native';
-import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 
 import useBackHandler from '../../hooks/useBackHandler';
@@ -28,7 +32,7 @@ const Login = () => {
   const checkboxView = useRef<Animatable.View & View>(null);
   const { colors, appColors } = useTheme();
   const navigation = useNavigation();
-  const { StatusBarManager } = NativeModules;
+  const windowWidth = useWindowDimensions().width;
   const windowHeight = useWindowDimensions().height;
   const [phone, setPhone] = useState('');
   const [termsAccepted, setTermsAccepted] = useState(false);
@@ -63,15 +67,15 @@ const Login = () => {
     offsetViewValue: number,
     offsetImageValue: number,
   ) => {
+    offsetImage.value = withTiming(offsetImageValue, {
+      duration: 500,
+      easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+    });
     scale.value = withTiming(scaleValue, {
       duration: 500,
       easing: Easing.bezier(0.25, 0.1, 0.25, 1),
     });
     offsetView.value = withTiming(offsetViewValue, {
-      duration: 500,
-      easing: Easing.bezier(0.25, 0.1, 0.25, 1),
-    });
-    offsetImage.value = withTiming(offsetImageValue, {
       duration: 500,
       easing: Easing.bezier(0.25, 0.1, 0.25, 1),
     });
@@ -116,26 +120,37 @@ const Login = () => {
   };
 
   const keyboardDidShow = () =>
-    scaleImage(
-      INITIAL_SCALE * 0.5,
-      INITIAL_OFFSET - (windowHeight / 4 - StatusBarManager.HEIGHT),
-      INITIAL_OFFSET - 20,
-    );
+    scaleImage(0.5, -windowHeight * 0.12, -windowHeight * 0.03);
 
   return (
-    <LinearGradient
-      locations={[0, 0.99]}
-      colors={[appColors.loginBg, appColors.naturalTwo]}
-      style={[styles.login]}>
+    <View style={[styles.login]}>
       <Animated.View style={[styles.image, animatedImageTranslateStyles]}>
         <Animated.View style={[{ width: '100%' }, animatedScaleStyles]}>
           <LoginPhone width="90%" height="90%" />
         </Animated.View>
       </Animated.View>
       <Animated.View style={[styles.avoidView, animatedTranslateStyles]}>
+        <View
+          style={[
+            StyleSheet.absoluteFillObject,
+            {
+              width: windowWidth,
+              height: windowWidth * 2,
+              borderRadius: 40,
+              backgroundColor: '#f7f7f7',
+              transform: [{ translateY: -windowWidth * 0.07 }],
+            },
+          ]}
+        />
         <View style={styles.headline}>
-          <Text style={[styles.heading]}>Enter your phone number</Text>
-          <Text style={[styles.subHeading]}>
+          <Text
+            style={[styles.heading]}
+            theme={{ colors: { text: colors.primary } }}>
+            Let's set your phone number
+          </Text>
+          <Text
+            style={[styles.subHeading]}
+            theme={{ colors: { text: colors.primary } }}>
             We will send you the 4 digit verification code
           </Text>
         </View>
@@ -185,7 +200,9 @@ const Login = () => {
             color={appColors.secondary}
           />
           <Pressable style={[styles.termsAcceptedText]} onPress={acceptTerms}>
-            <Text style={[styles.textStyle]}>
+            <Text
+              style={[styles.textStyle]}
+              theme={{ colors: { text: colors.primary } }}>
               I accept the terms and conditions.
             </Text>
           </Pressable>
@@ -207,7 +224,7 @@ const Login = () => {
           </Button>
         </View>
       </Animated.View>
-    </LinearGradient>
+    </View>
   );
 };
 

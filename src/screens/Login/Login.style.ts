@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { material } from 'react-native-typography';
 
 export default StyleSheet.create({
   login: {
@@ -23,10 +22,12 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   heading: {
-    ...material.headlineObject,
+    fontWeight: '700',
+    fontSize: 22,
   },
   subHeading: {
-    ...material.captionObject,
+    fontWeight: '300',
+    fontSize: 10,
   },
   inputset: {
     flex: 0.2,
@@ -57,7 +58,8 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   textStyle: {
-    ...material.captionObject,
+    fontWeight: '300',
+    fontSize: 12,
     textDecorationLine: 'none',
   },
   btnContainer: {
@@ -79,7 +81,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   phonenum: {
-    ...material.titleObject,
+    fontWeight: '700',
     fontSize: 16,
     marginLeft: 8,
   },
@@ -111,14 +113,17 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   resendText: {
-    padding: 4,
-    ...material.buttonObject,
+    fontWeight: '400',
+    fontSize: 12,
+    paddingTop: 6,
+    paddingHorizontal: 4,
   },
   resendBtn: {
     padding: 4,
-    marginLeft: 2,
+    marginLeft: 8,
   },
   resendBtnTxt: {
-    ...material.buttonObject,
+    fontWeight: '700',
+    fontSize: 14,
   },
 });

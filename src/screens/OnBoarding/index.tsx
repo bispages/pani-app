@@ -34,7 +34,6 @@ type Item = {
   image: ImageProps;
 };
 
-const backGroundColors = ['#575E6E', '#3F475A', '#273045', '#101a31'];
 // Onboarding Slides.
 const slides = [
   {
@@ -43,24 +42,28 @@ const slides = [
     text:
       'Select needed items from list and order it with your favourite shop or nearby shop',
     image: require('../../assets/img/screwdriverandspanner.png'),
+    backGroundColor: '#575E6E',
   },
   {
     key: 'OnBoardTwo',
     title: 'Need Tradesman?',
     text: 'Search for nearby technicians and laborers',
     image: require('../../assets/img/tools.png'),
+    backGroundColor: '#3F475A',
   },
   {
     key: 'OnBoardThree',
     title: 'Need Material Estimate?',
     text: 'Select the number of materials and get estimate with just a click',
     image: require('../../assets/img/screwdriver.png'),
+    backGroundColor: '#273045',
   },
   {
     key: 'OnBoardFour',
     title: 'Find services near you',
     text: 'Select services from a variety of vendors',
     image: require('../../assets/img/paint-brush.png'),
+    backGroundColor: '#101a31',
   },
 ];
 
@@ -115,14 +118,14 @@ const Square = ({
 
 const BackGround = ({
   scrollX,
-  width,
+  inputRange,
 }: {
   scrollX: RefObject<Animated.Value>;
-  width: number;
+  inputRange: number[];
 }) => {
   const backgroundColor = scrollX.current?.interpolate({
-    inputRange: backGroundColors.map((_, index) => index * width),
-    outputRange: backGroundColors.map(bg => bg),
+    inputRange: inputRange,
+    outputRange: slides.map(slide => slide.backGroundColor),
   });
   return (
     <Animated.View
@@ -174,16 +177,18 @@ const DoneButton = ({
   scrollX,
   width,
   onDone,
+  inputRange,
 }: {
   scrollX: RefObject<Animated.Value>;
   width: number;
   onDone: any;
+  inputRange: number[];
 }) => {
   const { colors, appColors } = useTheme();
   const translateY = scrollX.current?.interpolate({
-    inputRange: backGroundColors.map((_, index) => index * width),
-    outputRange: backGroundColors.map((_, index) =>
-      index === backGroundColors.length - 1 ? 0 : width,
+    inputRange: inputRange,
+    outputRange: slides.map((_, index) =>
+      index === slides.length - 1 ? 0 : width,
     ),
   });
   return (
@@ -208,12 +213,12 @@ const DoneButton = ({
 };
 
 const OnBoarding = (): ReactElement => {
-  const { colors, appColors } = useTheme();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { onBoarded } = useSelector((state: RootState) => state.onboard);
   const { width } = useWindowDimensions();
   const scrollX = useRef(new Animated.Value(0));
+  const inputRange = slides.map((_, index) => index * width);
 
   // Adds BackHandler hook.
   useBackHandler();
@@ -246,17 +251,17 @@ const OnBoarding = (): ReactElement => {
 
   const onDone = () => {
     // User finished the introduction. Save this and show login.
-    dispatch(onBoard());
-    AsyncStorage.setItem('onboarded', '1').then(() => {
+    // dispatch(onBoard());
+    // AsyncStorage.setItem('onboarded', '1').then(() => {
       navigateToLogin();
-    });
+    // });
   };
 
   return onBoarded ? (
     <View style={styles.slide} />
   ) : (
     <SafeAreaView style={styles.container}>
-      <BackGround scrollX={scrollX} width={width} />
+      <BackGround scrollX={scrollX} inputRange={inputRange} />
       <Square scrollX={scrollX} width={width} />
       <Animated.FlatList
         data={slides}
@@ -273,7 +278,12 @@ const OnBoarding = (): ReactElement => {
         renderItem={renderScreens}
       />
       <Circles scrollX={scrollX} width={width} />
-      <DoneButton scrollX={scrollX} width={width} onDone={onDone} />
+      <DoneButton
+        scrollX={scrollX}
+        width={width}
+        onDone={onDone}
+        inputRange={inputRange}
+      />
     </SafeAreaView>
   );
 };

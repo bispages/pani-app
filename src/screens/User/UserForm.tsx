@@ -6,7 +6,15 @@ import React, {
   useMemo,
   RefObject,
 } from 'react';
-import { Text, View, Keyboard, Pressable, ImageBackground } from 'react-native';
+import {
+  Text,
+  View,
+  Keyboard,
+  Pressable,
+  ImageBackground,
+  StyleSheet,
+  useWindowDimensions,
+} from 'react-native';
 import {
   TextInput,
   Button,
@@ -15,7 +23,6 @@ import {
   Snackbar,
 } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
-import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import ImagePicker, { Image } from 'react-native-image-crop-picker';
@@ -54,6 +61,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
   const [isBotSheetActive, setIsBotSheetActive] = useState(false);
   const bottomSheet = useRef<BottomSheet>(null);
   const photoBottomSheet = useRef<BottomSheet>(null);
+  const windowWidth = useWindowDimensions().width;
   const { colors, appColors } = useTheme();
   const dispatchAction = useDispatch();
 
@@ -263,7 +271,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
         contentContainerStyle={[styles.listContainer]}
         persistentScrollbar
         removeClippedSubviews>
-        <View style={{ alignItems: 'center' }}>
+        <View style={{ alignItems: 'center', paddingTop: 10 }}>
           <Text style={styles.panelTitle}>Upload Photo</Text>
           <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
         </View>
@@ -322,19 +330,6 @@ const UserForm = ({ route: { params } }: routeParams) => {
     <View style={[styles.container]}>
       <View style={[styles.container, { backgroundColor: colors.background }]}>
         <View style={[styles.userBannerContainer]}>
-          <LinearGradient
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0.7, y: 1.0 }}
-            locations={[0, 0.1, 0.3, 0.6, 0.8]}
-            colors={[
-              appColors.primary,
-              appColors.gradientOne,
-              appColors.gradientTwo,
-              appColors.gradientThree,
-              appColors.gradientFour,
-            ]}
-            style={[styles.userBannerBg]}
-          />
           {image ? (
             <View>
               <ImageBackground
@@ -376,12 +371,19 @@ const UserForm = ({ route: { params } }: routeParams) => {
             </Pressable>
           )}
         </View>
-        <LinearGradient
-          start={{ x: 0, y: 0 }}
-          end={{ x: 0.7, y: 1.0 }}
-          locations={[0, 0.99]}
-          colors={[appColors.naturalTwo, appColors.loginBg]}
-          style={[styles.formContainer]}>
+        <View style={[styles.formContainer]}>
+          <View
+            style={[
+              StyleSheet.absoluteFillObject,
+              {
+                width: windowWidth,
+                height: windowWidth * 2,
+                borderRadius: 40,
+                backgroundColor: '#f7f7f7',
+                transform: [{ translateY: -windowWidth * 0.01 }],
+              },
+            ]}
+          />
           <View style={[styles.textContainer]}>
             <TextInput
               mode="outlined"
@@ -576,7 +578,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
               SAVE
             </Button>
           </View>
-        </LinearGradient>
+        </View>
       </View>
       <Snackbar
         visible={showSnack}

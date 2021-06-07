@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { material } from 'react-native-typography';
 
 export default StyleSheet.create({
   container: {
@@ -8,6 +7,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   heading: {
-    ...material.display2Object,
+    fontSize: 16,
+    fontWeight: '400',
   },
 });

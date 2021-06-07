@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { material } from 'react-native-typography';
 
 export default StyleSheet.create({
   container: {

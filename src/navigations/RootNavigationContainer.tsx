@@ -37,7 +37,7 @@ const RootNavigationContainer = ({ theme }: { theme: Theme }) => {
   const screenOptions = {
     headerShown: false,
     cardStyle: { backgroundColor: Colors.primary },
-    ...TransitionPresets.ScaleFromCenterAndroid,
+    ...TransitionPresets.SlideFromRightIOS,
   };
 
   return loading ? (

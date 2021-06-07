@@ -16,7 +16,7 @@ const LoginStack = createStackNavigator();
 const screenOptions = {
   headerShown: false,
   cardStyle: { backgroundColor: Colors.primary },
-  ...TransitionPresets.ScaleFromCenterAndroid,
+  ...TransitionPresets.SlideFromRightIOS,
 };
 
 export const LoginNavigationStack = () => (

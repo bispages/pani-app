@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { material } from 'react-native-typography';
 
 export default StyleSheet.create({
   container: {
@@ -12,12 +11,6 @@ export default StyleSheet.create({
     flex: 0.3,
     width: '100%',
     overflow: 'hidden',
-  },
-  userBannerBg: {
-    flex: 1,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   imgContainer: {
     width: 120,
@@ -108,6 +101,7 @@ export default StyleSheet.create({
     flexGrow: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    paddingTop: 20,
     justifyContent: 'center',
   },
   dataListChip: {
@@ -124,18 +118,19 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   itemList: {
-    ...material.captionObject,
+    fontSize: 12,
     paddingHorizontal: 4,
   },
   panelTitle: {
-    ...material.titleObject,
     height: 30,
+    fontWeight: '700',
+    fontSize: 22,
   },
   panelSubtitle: {
-    ...material.body2Object,
     color: 'gray',
     height: 30,
-    marginBottom: 10,
+    fontWeight: '300',
+    fontSize: 12,
   },
   panelButtonContainer: {
     width: '100%',

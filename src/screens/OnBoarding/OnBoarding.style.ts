@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { material } from 'react-native-typography';
 
 export default StyleSheet.create({
   slide: {
@@ -34,7 +33,7 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
   square: {
-    backgroundColor: '#FFFAEE',
+    backgroundColor: '#f7f7f7',
     borderRadius: 80,
     position: 'absolute',
   },

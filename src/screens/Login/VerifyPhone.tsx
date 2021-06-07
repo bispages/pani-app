@@ -8,14 +8,14 @@ import React, {
 } from 'react';
 import {
   View,
-  Text,
   TextInput,
   Keyboard,
-  NativeModules,
   TouchableOpacity,
   useWindowDimensions,
+  StyleSheet,
 } from 'react-native';
 import {
+  Text,
   TextInput as PaperTextInput,
   Button,
   useTheme,
@@ -78,7 +78,7 @@ const VerifyPhone = ({ route: { params } }: routeParams) => {
   const INITIAL_OFFSET = 0;
   const { phone } = params;
   const navigation = useNavigation();
-  const { StatusBarManager } = NativeModules;
+  const windowWidth = useWindowDimensions().width;
   const windowHeight = useWindowDimensions().height;
   const scale = useSharedValue(INITIAL_SCALE);
   const offsetView = useSharedValue(INITIAL_OFFSET);
@@ -149,11 +149,7 @@ const VerifyPhone = ({ route: { params } }: routeParams) => {
     scaleImage(INITIAL_SCALE, INITIAL_OFFSET, INITIAL_OFFSET);
 
   const keyboardDidShow = () =>
-    scaleImage(
-      INITIAL_SCALE * 0.5,
-      INITIAL_OFFSET - (windowHeight / 4 - StatusBarManager.HEIGHT),
-      INITIAL_OFFSET - 20,
-    );
+    scaleImage(0.5, -windowHeight * 0.12, -windowHeight * 0.03);
 
   const onTextChange = (key: string, text: string, index: number) => {
     const val = text.replace(/[^0-9]/g, '');
@@ -185,21 +181,43 @@ const VerifyPhone = ({ route: { params } }: routeParams) => {
   };
 
   return (
-    <LinearGradient
-      locations={[0, 0.99]}
-      colors={[appColors.loginBg, appColors.naturalTwo]}
-      style={[styles.login]}>
-      <Animated.View style={[styles.image, animatedImageTranslateStyles]}>
+    <View style={[styles.login]}>
+      <Animated.View
+        style={[styles.image, animatedImageTranslateStyles, { paddingTop: 8 }]}>
         <Animated.View style={[{ width: '100%' }, animatedScaleStyles]}>
           <Verifyphone width="100%" height="90%" />
         </Animated.View>
       </Animated.View>
       <Animated.View style={[styles.avoidView, animatedTranslateStyles]}>
+        <View
+          style={[
+            StyleSheet.absoluteFillObject,
+            {
+              width: windowWidth,
+              height: windowWidth * 2,
+              borderRadius: 40,
+              backgroundColor: '#f7f7f7',
+              transform: [{ translateY: -windowWidth * 0.07 }],
+            },
+          ]}
+        />
         <View style={styles.headline}>
-          <Text style={[styles.heading]}>OTP Verification</Text>
+          <Text
+            style={[styles.heading]}
+            theme={{ colors: { text: colors.primary } }}>
+            OTP Verification
+          </Text>
           <View style={[styles.phoneVerifyContainer]}>
-            <Text style={[styles.subHeading]}>Enter the OTP sent to</Text>
-            <Text style={[styles.phonenum]}>{`+91 ${phone}`}</Text>
+            <Text
+              style={[styles.subHeading]}
+              theme={{ colors: { text: colors.primary } }}>
+              Enter the OTP sent to
+            </Text>
+            <Text
+              style={[styles.phonenum]}
+              theme={{
+                colors: { text: colors.primary },
+              }}>{`+91 ${phone}`}</Text>
           </View>
         </View>
         <View style={styles.inputsetContainer}>
@@ -234,7 +252,11 @@ const VerifyPhone = ({ route: { params } }: routeParams) => {
             })}
           </View>
           <View style={styles.resendContainer}>
-            <Text style={styles.resendText}>Didn't received OTP?</Text>
+            <Text
+              style={styles.resendText}
+              theme={{ colors: { text: colors.primary } }}>
+              Didn't received OTP?
+            </Text>
             <View style={styles.resendBtn}>
               <TouchableOpacity onPress={resend}>
                 <Text style={[styles.resendBtnTxt, { color: colors.accent }]}>
@@ -261,7 +283,7 @@ const VerifyPhone = ({ route: { params } }: routeParams) => {
           </Button>
         </View>
       </Animated.View>
-    </LinearGradient>
+    </View>
   );
 };
 
