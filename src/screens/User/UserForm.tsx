@@ -24,7 +24,10 @@ import {
 } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetScrollView,
+} from '@gorhom/bottom-sheet';
 import ImagePicker, { Image } from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -67,13 +70,23 @@ const UserForm = ({ route: { params } }: routeParams) => {
 
   const snapPoints = useMemo(
     () => [
-      -1,
       USERFORM_BOTSHEET_SNAPMIN,
       USERFORM_BOTSHEET_SNAPMID,
       USERFORM_BOTSHEET_SNAPMAX,
     ],
     [],
   );
+  const renderBackdrop = useCallback(
+    props => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={0}
+        appearsOnIndex={1}
+      />
+    ),
+    [],
+  );
+
   const handleSheetChanges = useCallback(
     (index: number, sheet: RefObject<BottomSheet>) => {
       if (index <= 0) {
@@ -87,7 +100,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
   );
 
   const showBotSheet = useCallback(
-    (sheet: RefObject<BottomSheet>) => sheet.current?.snapTo(2),
+    (sheet: RefObject<BottomSheet>) => sheet.current?.snapToIndex(1),
     [],
   );
 
@@ -184,7 +197,8 @@ const UserForm = ({ route: { params } }: routeParams) => {
       ref={bottomSheet}
       index={-1}
       snapPoints={snapPoints}
-      onChange={(index: number) => handleSheetChanges(index, bottomSheet)}>
+      onChange={(index: number) => handleSheetChanges(index, bottomSheet)}
+      backdropComponent={renderBackdrop}>
       <BottomSheetScrollView
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={[styles.listContainer]}
@@ -238,11 +252,12 @@ const UserForm = ({ route: { params } }: routeParams) => {
       compressImageMaxHeight: 120,
       cropping: true,
       mediaType: 'photo',
-    }).then((image: Image) => {
-      if ('path' in image) setImage(image);
-      closeBotSheet(photoBottomSheet);
-    });
-    // .catch(err => console.log(err));
+    })
+      .then((image: Image) => {
+        closeBotSheet(photoBottomSheet);
+        if ('path' in image) setImage(image);
+      })
+      .catch(err => console.log(err));
   };
 
   const choosePhotoFromLibrary = () => {
@@ -253,11 +268,12 @@ const UserForm = ({ route: { params } }: routeParams) => {
       mediaType: 'photo',
       cropperCircleOverlay: true,
       cropperActiveWidgetColor: colors.accent,
-    }).then((image: Image) => {
-      if ('path' in image) setImage(image);
-      closeBotSheet(photoBottomSheet);
-    });
-    // .catch(err => console.log(err));
+    })
+      .then((image: Image) => {
+        closeBotSheet(photoBottomSheet);
+        if ('path' in image) setImage(image);
+      })
+      .catch(err => console.log(err));
   };
 
   const renderPhotoBottomSheet = () => (
@@ -265,7 +281,9 @@ const UserForm = ({ route: { params } }: routeParams) => {
       ref={photoBottomSheet}
       index={-1}
       snapPoints={snapPoints}
-      onChange={(index: number) => handleSheetChanges(index, photoBottomSheet)}>
+      enablePanDownToClose
+      onChange={(index: number) => handleSheetChanges(index, photoBottomSheet)}
+      backdropComponent={renderBackdrop}>
       <BottomSheetScrollView
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={[styles.listContainer]}
@@ -331,7 +349,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
       <View style={[styles.container, { backgroundColor: colors.background }]}>
         <View style={[styles.userBannerContainer]}>
           {image ? (
-            <View>
+            <>
               <ImageBackground
                 source={{
                   uri: image.path,
@@ -350,7 +368,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
                 style={[styles.editPic, { backgroundColor: colors.accent }]}>
                 <Icon name="camera-plus" color={colors.text} size={14} />
               </Pressable>
-            </View>
+            </>
           ) : (
             <Pressable
               disabled={isBotSheetActive}

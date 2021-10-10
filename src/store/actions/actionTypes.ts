@@ -16,3 +16,7 @@ export const SETTINGS = {
   DARK: 'DARK',
   LIGHT: 'LIGHT',
 };
+
+export const ESTIMATE = {
+  MATERIAL_ADD: 'MATERIAL_ADD',
+};

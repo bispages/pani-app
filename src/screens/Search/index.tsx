@@ -1,13 +1,13 @@
 import React, { ComponentProps, FC, useRef, useState } from 'react';
 import { View, FlatList } from 'react-native';
 import { Button, useTheme } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 
 import styles from './Search.style';
 import { ItemList } from '../../types';
 import SearchBar from '../../components/SearchBar';
 import SectionCards from '../../components/SectionCards';
 import WelcomeText from '../../components/WelcomeText';
-import { professionList } from '../../utils/professionList';
 
 // Cards List to show in order.
 const cardsList = [
@@ -20,17 +20,21 @@ const cardsList = [
     name: 'SearchBar',
   },
   {
-    id: '-1',
+    id: '0',
     name: 'Near Me',
   },
   {
-    id: '0',
+    id: '-1',
     name: 'Popular',
   },
-  ...professionList,
+  {
+    id: '-2',
+    name: 'Top Services',
+  },
 ];
 
 const Search = (props: ComponentProps<FC>) => {
+  const navigation = useNavigation();
   const { dark, colors } = useTheme();
   const searchRef = useRef<FlatList>(null);
   const [refreshing, setRefreshing] = useState(false);
@@ -43,10 +47,12 @@ const Search = (props: ComponentProps<FC>) => {
   };
 
   // Function to call the api for search.
-  const search = (text: string | '', item?: ItemList) => {
+  const search = (text: string | '') => {};
+
+  // Function to go to respective sections.
+  const goToSection = (item?: ItemList) => {
     if (item !== undefined && searchRef.current) {
-      const index = parseInt(item.id, 10) + 2;
-      goToIndex(index);
+      navigation.navigate('Details', { item });
     }
   };
 
@@ -60,7 +66,7 @@ const Search = (props: ComponentProps<FC>) => {
   }) => {
     if (index < 2) {
       return index > 0 ? (
-        <SearchBar searchFunc={search} {...props} />
+        <SearchBar searchFunc={search} goToSection={goToSection} {...props} />
       ) : (
         <WelcomeText {...props} />
       );
@@ -104,7 +110,7 @@ const Search = (props: ComponentProps<FC>) => {
         ref={searchRef}
         data={cardsList}
         extraData={[dark]}
-        initialNumToRender={4}
+        initialNumToRender={5}
         onRefresh={getDataCards}
         refreshing={refreshing}
         progressViewOffset={1}

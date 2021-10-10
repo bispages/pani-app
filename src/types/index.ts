@@ -28,3 +28,35 @@ export type DataListView = {
   id: string;
   component: FunctionComponent;
 }[];
+
+export type MaterialType = {
+  id: string;
+  name: string;
+};
+
+export type MaterialItem = {
+  id: string;
+  name: string;
+};
+
+export type MaterialSpec = {
+  id: string;
+  name: string;
+};
+
+export type Materials = {
+  material: MaterialSpec;
+  count: number;
+};
+
+export type EstimateItem = {
+  typeId: string;
+  type: string;
+  itemId: string;
+  item: string;
+  count: number;
+  specId: string;
+  spec: string;
+};
+
+export type FormValue = EstimateItem[];

@@ -4,6 +4,7 @@ import settingsReducer from './settingsReducer';
 import onBoardReducer from './onBoardReducer';
 import authReducer from './authReducer';
 import userReducer from './userReducer';
+import estimateFormReducer from './estimateFormReducer';
 
 /**
  * @description - Root reducer.
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   user: userReducer,
   settings: settingsReducer,
+  estimate: estimateFormReducer,
 });
 
 export default rootReducer;

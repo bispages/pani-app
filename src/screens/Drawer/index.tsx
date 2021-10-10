@@ -65,26 +65,26 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
               icon={({ color, size }) => (
                 <Icon name="magnify" color={color} size={size} />
               )}
-              focused={routeNames[index] === 'Search'}
+              focused={routeNames[index] === 'Searchstack'}
               inactiveTintColor={colors.text}
               activeTintColor={colors.primary}
               activeBackgroundColor={colors.accent}
               label="Search"
               onPress={() => {
-                navigation.navigate('Search');
+                navigation.navigate('Searchstack');
               }}
             />
             <DrawerItem
               icon={({ color, size }) => (
                 <Icon name="briefcase-outline" color={color} size={size} />
               )}
-              focused={routeNames[index] === 'Work'}
+              focused={routeNames[index] === 'EstimateStack'}
               inactiveTintColor={colors.text}
               activeTintColor={colors.primary}
               activeBackgroundColor={colors.accent}
-              label="Work"
+              label="Estimate"
               onPress={() => {
-                navigation.navigate('Work');
+                navigation.navigate('EstimateStack');
               }}
             />
             <DrawerItem

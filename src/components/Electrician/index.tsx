@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Pressable, Text } from 'react-native';
+import { View } from 'react-native';
 import { Button, useTheme } from 'react-native-paper';
 
 import styles from './Electrician.style';
@@ -7,9 +7,8 @@ import styles from './Electrician.style';
 const Electrician = () => {
   const { colors } = useTheme();
 
-  const findElectricalShop = () => {};
-  const findElectrician = () => {};
-  const createEstimate = () => {};
+  const findHardwareShop = () => {};
+  const findPlumber = () => {};
 
   return (
     <View style={[styles.panelButtonContainer]}>
@@ -18,7 +17,7 @@ const Electrician = () => {
           dark
           loading={false}
           mode="contained"
-          onPress={findElectricalShop}
+          onPress={findHardwareShop}
           contentStyle={styles.panelButton}
           theme={{
             colors: {
@@ -27,22 +26,13 @@ const Electrician = () => {
           }}>
           FIND AN ELECTRICAL SHOP
         </Button>
-        {/* <Pressable
-          onPress={findElectricalShop}
-          android_ripple={{
-            color: colors.text,
-            borderless: false,
-            radius: 400,
-          }}>
-          <Text>FIND AN ELECTRICAL SHOP</Text>
-        </Pressable> */}
       </View>
       <View style={[styles.panelButtonView]}>
         <Button
           dark
           loading={false}
           mode="contained"
-          onPress={findElectrician}
+          onPress={findPlumber}
           contentStyle={styles.panelButton}
           theme={{
             colors: {
@@ -50,21 +40,6 @@ const Electrician = () => {
             },
           }}>
           FIND AN ELECTRICIAN
-        </Button>
-      </View>
-      <View style={[styles.panelButtonView]}>
-        <Button
-          dark
-          loading={false}
-          mode="contained"
-          onPress={createEstimate}
-          contentStyle={styles.panelButton}
-          theme={{
-            colors: {
-              primary: colors.accent,
-            },
-          }}>
-          CREATE AN ESTIMATE
         </Button>
       </View>
     </View>

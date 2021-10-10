@@ -13,10 +13,10 @@ type Animate = {
 
 const CategoryListScroll = (
   props: ComponentProps<FC> & {
-    searchFunc: Function;
+    goToSection: Function;
   },
 ) => {
-  const { searchFunc } = props;
+  const { goToSection } = props;
   const { dark, colors, appColors } = useTheme();
   const fadeIn = {
     from: {
@@ -54,11 +54,11 @@ const CategoryListScroll = (
             fontSize: 14,
             textAlign: 'justify',
             textAlignVertical: 'center',
-            color: dark ? colors.primary : colors.primary,
+            color: dark ? colors.text : colors.primary,
           }}
           onPress={() => {
             animateOpacity(listItemRef);
-            searchFunc('', item);
+            goToSection(item);
           }}
         />
       </Animatable.View>

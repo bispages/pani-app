@@ -28,7 +28,6 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import LinearGradient from 'react-native-linear-gradient';
 
 import { login } from '../../store/actions';
 import useIsLoggedIn from '../../hooks/useIsLoggedIn';

@@ -15,6 +15,8 @@ const PersonCard = ({ data }: { data: ItemList }) => {
       style={{
         overflow: 'hidden',
         marginHorizontal: 5,
+        width: 200,
+        height: 150,
       }}>
       <Card.Content
         style={[styles.personContainer, { backgroundColor: colors.text }]}>

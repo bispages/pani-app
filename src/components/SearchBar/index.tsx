@@ -5,8 +5,10 @@ import { TextInput, useTheme } from 'react-native-paper';
 import styles from './SearchBar.style';
 import CategoryListScroll from '../CategoryListScroll';
 
-const SearchBar = (props: ComponentProps<FC> & { searchFunc: Function }) => {
-  const { searchFunc } = props;
+const SearchBar = (
+  props: ComponentProps<FC> & { searchFunc: Function; goToSection: Function },
+) => {
+  const { searchFunc, goToSection } = props;
   const { dark, colors, appColors } = useTheme();
   const [searchKey, setSearchKey] = useState('');
 
@@ -38,7 +40,7 @@ const SearchBar = (props: ComponentProps<FC> & { searchFunc: Function }) => {
           onChangeText={text => setSearchKey(text)}
         />
       </View>
-      <CategoryListScroll {...searchFunc} {...props} />
+      <CategoryListScroll {...props} />
     </View>
   );
 };

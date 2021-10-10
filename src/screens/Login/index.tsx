@@ -94,6 +94,7 @@ const Login = () => {
   };
 
   const acceptTerms = (): void => {
+    Keyboard.dismiss();
     setTermsAccepted(!termsAccepted);
     if (checkboxView.current?.bounceIn) checkboxView.current.bounceIn(400);
   };
