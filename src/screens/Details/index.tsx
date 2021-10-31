@@ -35,7 +35,7 @@ const Details = ({
   const CARD_SIZE = 70;
   const TOTAL_CARD_HEIGHT = CARD_SIZE + 4 * CARD_SPACING;
 
-  const { colors } = useTheme();
+  const { colors, dark } = useTheme();
   const scrollY = useRef(new Animated.Value(0)).current;
 
   const renderPersonCards = ({
@@ -91,15 +91,27 @@ const Details = ({
         />
         <View style={{ marginLeft: 15 }}>
           <Text
-            style={{ color: colors.primary, fontWeight: '700', fontSize: 18 }}>
+            style={{
+              color: dark ? colors.primary : colors.text,
+              fontWeight: '700',
+              fontSize: 18,
+            }}>
             {item.name}
           </Text>
           <Text
-            style={{ color: colors.primary, fontWeight: '300', fontSize: 12 }}>
+            style={{
+              color: dark ? colors.primary : colors.text,
+              fontWeight: '300',
+              fontSize: 12,
+            }}>
             {item.phone}
           </Text>
           <Text
-            style={{ color: colors.primary, fontWeight: '300', fontSize: 10 }}>
+            style={{
+              color: dark ? colors.primary : colors.text,
+              fontWeight: '300',
+              fontSize: 10,
+            }}>
             {item.jobTitle}
           </Text>
         </View>
