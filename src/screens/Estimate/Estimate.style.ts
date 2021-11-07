@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
   },
   panelButtonView: {
     width: '90%',
+    marginTop: 5,
     marginBottom: 20,
   },
   panelButton: {
@@ -89,6 +90,20 @@ const styles = StyleSheet.create({
   headerText: {
     flex: 1,
     paddingLeft: '15%',
+  },
+  textContainer: {
+    width: '100%',
+    marginBottom: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  preText: {
+    paddingHorizontal: 8,
+    marginRight: 8,
+  },
+  textInput: {
+    width: '90%',
+    marginTop: 5,
   },
 });
 
