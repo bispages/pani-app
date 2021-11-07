@@ -18,7 +18,7 @@ React Native - powered Android application.
 
 ## Tech
 
-Pani app uses a number of open source projects to work properly:
+Pani app uses react native for andriod app:
 
 - [React Native](https://reactnative.dev/) - Mobile app development made easy!
 
