@@ -19,4 +19,5 @@ export const SETTINGS = {
 
 export const ESTIMATE = {
   MATERIAL_ADD: 'MATERIAL_ADD',
+  CUSTOMER_ADD: 'CUSTOMER_ADD',
 };

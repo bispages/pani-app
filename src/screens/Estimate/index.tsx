@@ -2,17 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { TextInput, Button, useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+
+import { addCustomer } from '../../store/actions';
 import styles from './Estimate.style';
 
 const Estimate = () => {
+  const dispatch = useDispatch();
   const { dark, colors } = useTheme();
   const navigation = useNavigation();
   const [name, setName] = useState('');
   const [area, setArea] = useState('');
-  const [mobileNo, setMobile] = useState('');
+  const [mobile, setMobile] = useState('');
   const [pincode, setPincode] = useState('');
 
   const createEstimate = () => {
+    dispatch(addCustomer({ name, area, mobile, pincode }));
     navigation.navigate('MaterialTypes');
   };
 
@@ -101,15 +106,15 @@ const Estimate = () => {
             }}
             style={[styles.textInput]}
             keyboardType="numeric"
-            maxLength={6}
+            maxLength={10}
             onChangeText={(text: string) => setMobile(text)}
-            defaultValue={mobileNo}
-            value={mobileNo}
+            defaultValue={mobile}
+            value={mobile}
             autoCorrect={false}
-            autoCompleteType="postal-code"
+            autoCompleteType="tel"
             returnKeyType="next"
             textAlign="left"
-            textContentType="postalCode"
+            textContentType="telephoneNumber"
           />
         </View>
         <View style={[styles.textContainer]}>

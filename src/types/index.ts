@@ -59,4 +59,15 @@ export type EstimateItem = {
   spec: string;
 };
 
+export type Customer = {
+  name?: string;
+  area?: string;
+  mobile?: string;
+  pincode?: string;
+};
+
 export type FormValue = EstimateItem[];
+export type EstimateForm = {
+  customer: Customer;
+  estimateItems: EstimateItem[];
+};

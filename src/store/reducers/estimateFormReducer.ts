@@ -1,17 +1,22 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { ESTIMATE } from '../actions/actionTypes';
 
-import { EstimateItem } from '../../types';
+import { EstimateForm, EstimateItem, Customer } from '../../types';
 
-const initialState: EstimateItem[] = [];
+const initialState: EstimateForm = {
+  customer: {},
+  estimateItems: [],
+};
 
 const estimateFormReducer = (
-  state = initialState,
-  { type, payload }: PayloadAction<EstimateItem[]>,
+  state: EstimateForm = initialState,
+  { type, payload }: PayloadAction<EstimateItem[] | Customer>,
 ) => {
   switch (type) {
     case ESTIMATE.MATERIAL_ADD:
-      return payload;
+      return { ...state, estimateItems: payload };
+    case ESTIMATE.CUSTOMER_ADD:
+      return { ...state, customer: payload };
     default:
       return state;
   }

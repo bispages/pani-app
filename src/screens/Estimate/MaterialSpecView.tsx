@@ -18,6 +18,7 @@ import {
   MaterialItem,
   Materials,
   FormValue,
+  EstimateForm,
   MaterialSpec,
 } from '../../types';
 import styles from './Estimate.style';
@@ -35,31 +36,35 @@ const MaterialSpecView = ({
   const { dark, colors } = useTheme();
   const [loading, setLoading] = useState(true);
   const [itemInfo, setItemInfo] = useState({ type, item });
-  const formVal: FormValue = useSelector((state: RootState) => state.estimate);
+  const formVal: EstimateForm = useSelector(
+    (state: RootState) => state.estimate,
+  );
 
   // Get Count Value from the form.
   const getCountValue = ({ id }: MaterialSpec) => {
-    if (formVal?.length) {
-      const countIndex = formVal.findIndex(
-        formValObj =>
-          formValObj?.typeId === itemInfo?.type?.id &&
-          formValObj?.itemId === itemInfo?.item?.id &&
-          formValObj?.specId === id,
+    const { estimateItems } = formVal;
+    if (estimateItems?.length) {
+      const countIndex = estimateItems.findIndex(
+        estimateItem =>
+          estimateItem?.typeId === itemInfo?.type?.id &&
+          estimateItem?.itemId === itemInfo?.item?.id &&
+          estimateItem?.specId === id,
       );
-      if (countIndex >= 0) return formVal[countIndex]?.count;
+      if (countIndex >= 0) return estimateItems[countIndex]?.count;
     }
     return 0;
   };
 
   // Update the count values.
   const updateCountValue = ({ material, count }: Materials) => {
-    if (formVal?.length) {
-      const newMaterials = [...formVal];
+    const { estimateItems } = formVal;
+    if (estimateItems?.length) {
+      const newMaterials = [...estimateItems];
       const deleteIndex = newMaterials.findIndex(
-        formValObj =>
-          formValObj?.typeId === itemInfo?.type?.id &&
-          formValObj?.itemId === itemInfo?.item?.id &&
-          formValObj?.specId === material?.id,
+        estimateItem =>
+          estimateItem?.typeId === itemInfo?.type?.id &&
+          estimateItem?.itemId === itemInfo?.item?.id &&
+          estimateItem?.specId === material?.id,
       );
       if (deleteIndex >= 0) newMaterials.splice(deleteIndex, 1);
       newMaterials.push({

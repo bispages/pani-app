@@ -1,5 +1,5 @@
 import { ONBOARD, AUTH, USER, SETTINGS, ESTIMATE } from './actionTypes';
-import { User, EstimateItem } from '../../types';
+import { User, EstimateItem, Customer } from '../../types';
 
 export const setDarkTheme = () => {
   return { type: SETTINGS.DARK };
@@ -23,4 +23,8 @@ export const saveUser = (user: User) => {
 
 export const addToEstimate = (estimateItems: EstimateItem[]) => {
   return { type: ESTIMATE.MATERIAL_ADD, payload: estimateItems };
+};
+
+export const addCustomer = (customer: Customer) => {
+  return { type: ESTIMATE.CUSTOMER_ADD, payload: customer };
 };
