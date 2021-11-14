@@ -40,12 +40,15 @@ const styles = StyleSheet.create({
   panelButtonContainer: {
     width: '100%',
     padding: 20,
+    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   panelButtonView: {
     width: '90%',
     marginTop: 5,
+    flex: 0.3,
+    justifyContent: 'flex-end',
     marginBottom: 20,
   },
   panelButton: {
@@ -91,6 +94,10 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: '15%',
   },
+  panelTextContainer: {
+    flex: 0.7,
+    width: '100%',
+  },
   textContainer: {
     width: '100%',
     marginBottom: 14,
@@ -104,6 +111,7 @@ const styles = StyleSheet.create({
   textInput: {
     width: '90%',
     marginTop: 5,
+    height: 60,
   },
 });
 
