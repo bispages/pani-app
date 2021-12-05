@@ -8,6 +8,7 @@ import { useTheme } from 'react-native-paper';
 import Estimate from '../screens/Estimate';
 import MaterialTypes from '../screens/Estimate/MaterialTypes';
 import MaterialItems from '../screens/Estimate/MaterialItems';
+import EstimateTableView from '../screens/Estimate/EstimateTableView';
 
 const EstimateStack = createStackNavigator();
 
@@ -36,6 +37,10 @@ const EstimateNavigationStack = () => {
       />
       <EstimateStack.Screen name="MaterialTypes" component={MaterialTypes} />
       <EstimateStack.Screen name="MaterialItems" component={MaterialItems} />
+      <EstimateStack.Screen
+        name="EstimateTableView"
+        component={EstimateTableView}
+      />
     </EstimateStack.Navigator>
   );
 };

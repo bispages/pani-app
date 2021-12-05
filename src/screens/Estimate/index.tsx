@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { TextInput, Button, useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { RootState } from '../../store';
+import { EstimateForm } from '../../types';
 import { addCustomer } from '../../store/actions';
 import styles from './Estimate.style';
 
@@ -15,6 +17,10 @@ const Estimate = () => {
   const [area, setArea] = useState('');
   const [mobile, setMobile] = useState('');
   const [pincode, setPincode] = useState('');
+  const formVal: EstimateForm = useSelector(
+    (state: RootState) => state.estimate,
+  );
+  const { customer } = formVal;
 
   const createEstimate = () => {
     dispatch(addCustomer({ name, area, mobile, pincode }));
@@ -46,7 +52,7 @@ const Estimate = () => {
             keyboardType="default"
             maxLength={40}
             onChangeText={(text: string) => setName(text)}
-            defaultValue={name}
+            defaultValue={customer.name}
             value={name}
             autoCorrect={false}
             autoCompleteType="name"
@@ -77,7 +83,7 @@ const Estimate = () => {
             keyboardType="default"
             maxLength={40}
             onChangeText={(text: string) => setArea(text)}
-            defaultValue={area}
+            defaultValue={customer.area}
             value={area}
             autoCorrect={false}
             autoCompleteType="street-address"
@@ -108,7 +114,7 @@ const Estimate = () => {
             keyboardType="numeric"
             maxLength={10}
             onChangeText={(text: string) => setMobile(text)}
-            defaultValue={mobile}
+            defaultValue={customer.mobile}
             value={mobile}
             autoCorrect={false}
             autoCompleteType="tel"
@@ -139,7 +145,7 @@ const Estimate = () => {
             keyboardType="numeric"
             maxLength={6}
             onChangeText={(text: string) => setPincode(text)}
-            defaultValue={pincode}
+            defaultValue={customer.pincode}
             value={pincode}
             autoCorrect={false}
             autoCompleteType="postal-code"

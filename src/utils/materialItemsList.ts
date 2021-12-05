@@ -39,4 +39,28 @@ export const materialItemsList = [
     id: '10',
     name: 'Flange Adapter',
   },
+  {
+    id: '13',
+    name: 'Elbow2',
+  },
+  {
+    id: '14',
+    name: 'End Cap2',
+  },
+  {
+    id: '15',
+    name: 'Reducer2',
+  },
+  {
+    id: '16',
+    name: 'Union2',
+  },
+  {
+    id: '17',
+    name: 'Elbow 902',
+  },
+  {
+    id: '18',
+    name: 'Elbow Holder2',
+  },
 ];

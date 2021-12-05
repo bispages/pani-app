@@ -113,6 +113,45 @@ const styles = StyleSheet.create({
     marginTop: 5,
     height: 60,
   },
+  saveBtnContainer: {
+    width: '90%',
+    flex: 0.12,
+    zIndex: 0,
+    marginTop: 15,
+  },
+  estimateView: {
+    flex: 1,
+    padding: 15,
+  },
+  headerTextContainer: {
+    flex: 1,
+  },
+  customerContainer: {
+    flex: 0.1,
+  },
+  customerInfoContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  customerInfo: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  customerFont: {
+    fontSize: 16,
+  },
+  estimateData: {
+    flex: 0.9,
+    paddingVertical: 15,
+  },
+  dataHeader: {},
+  dataList: {},
+  slNo: {
+    textAlignVertical: 'center',
+  },
+  count: {
+    textAlignVertical: 'center',
+  },
 });
 
 export default styles;

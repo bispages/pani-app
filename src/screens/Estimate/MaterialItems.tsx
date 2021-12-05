@@ -6,8 +6,9 @@ import React, {
   useState,
 } from 'react';
 import { View, Pressable, ScrollView } from 'react-native';
-import { Text, useTheme } from 'react-native-paper';
+import { Text, useTheme, Button } from 'react-native-paper';
 import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
+import { useNavigation } from '@react-navigation/native';
 
 import MaterialSpecView from './MaterialSpecView';
 
@@ -27,6 +28,7 @@ type routeParams = {
 const MaterialItems = ({ route: { params } }: routeParams) => {
   const { type } = params;
   const { dark, colors } = useTheme();
+  const navigation = useNavigation();
 
   const snapPoints = useMemo(
     () => [
@@ -133,6 +135,10 @@ const MaterialItems = ({ route: { params } }: routeParams) => {
     </Pressable>
   );
 
+  const saveEstimate = () => {
+    navigation.navigate('EstimateTableView');
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.headingContainer}>
@@ -148,6 +154,21 @@ const MaterialItems = ({ route: { params } }: routeParams) => {
             </ScrollView>
           </View>
         ) : null}
+      </View>
+      <View style={styles.saveBtnContainer}>
+        <Button
+          dark
+          loading={false}
+          mode="contained"
+          onPress={saveEstimate}
+          contentStyle={styles.panelButton}
+          theme={{
+            colors: {
+              primary: colors.accent,
+            },
+          }}>
+          SAVE
+        </Button>
       </View>
       {renderBottomSheet(type, item)}
     </View>
