@@ -1,4 +1,4 @@
-import React, { ContextType } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import {
   useTheme,
@@ -61,7 +61,7 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
           <Drawer.Section style={styles.drawerSection}>
-            <DrawerItem
+            {/* <DrawerItem
               icon={({ color, size }) => (
                 <Icon name="magnify" color={color} size={size} />
               )}
@@ -73,7 +73,7 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
               onPress={() => {
                 navigation.navigate('Searchstack');
               }}
-            />
+            /> */}
             <DrawerItem
               icon={({ color, size }) => (
                 <Icon name="briefcase-outline" color={color} size={size} />
@@ -100,7 +100,7 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
                 navigation.navigate('Profile');
               }}
             />
-            <DrawerItem
+            {/* <DrawerItem
               icon={({ color, size }) => (
                 <Icon name="cog-outline" color={color} size={size} />
               )}
@@ -112,7 +112,7 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
               onPress={() => {
                 navigation.navigate('Settings');
               }}
-            />
+            /> */}
             <DrawerItem
               icon={({ color, size }) => (
                 <Icon name="account-check-outline" color={color} size={size} />
