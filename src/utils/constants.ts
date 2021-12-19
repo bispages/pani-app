@@ -9,3 +9,4 @@ export const USERFORM_BOTSHEET_SNAPMID = '50%';
 export const USERFORM_BOTSHEET_SNAPMIN = '25%';
 export const ESTIMATE_MATERIAL_BOTSHEET_SNAPMIN = '50%'
 export const ESTIMATE_MATERIAL_BOTSHEET_SNAPMAX = '75%';
+export const BISPAGES_TERMS_CONDITION_URL = 'https://bispages.com/';

@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   View,
   Keyboard,
   useWindowDimensions,
   Pressable,
   StyleSheet,
+  Linking,
 } from 'react-native';
 import {
   TextInput,
@@ -12,6 +13,7 @@ import {
   Button,
   useTheme,
   Checkbox,
+  Snackbar
 } from 'react-native-paper';
 import Animated, {
   useSharedValue,
@@ -25,10 +27,13 @@ import * as Animatable from 'react-native-animatable';
 import useBackHandler from '../../hooks/useBackHandler';
 import styles from './Login.style';
 import LoginPhone from '../../assets/img/loginphone.svg';
+import { BISPAGES_TERMS_CONDITION_URL } from '../../utils/constants';
 
 const Login = () => {
   const INITIAL_SCALE = 1;
   const INITIAL_OFFSET = 0;
+  const [showSnack, setShowSnack] = useState(false);
+  const [message, setMessage] = useState('');
   const checkboxView = useRef<Animatable.View & View>(null);
   const { colors, appColors } = useTheme();
   const navigation = useNavigation();
@@ -123,6 +128,21 @@ const Login = () => {
   const keyboardDidShow = () =>
     scaleImage(0.5, -windowHeight * 0.12, -windowHeight * 0.03);
 
+  const onDismissSnackBar = () => {
+    setShowSnack(false);
+    setMessage('');
+  };
+
+  const openTerms = useCallback(async () => {
+    const supported = await Linking.canOpenURL(BISPAGES_TERMS_CONDITION_URL);
+    if (supported) {
+      await Linking.openURL(BISPAGES_TERMS_CONDITION_URL);
+    } else {
+      setMessage(`Don't know how to open this URL: ${BISPAGES_TERMS_CONDITION_URL}`);
+      setShowSnack(true);
+    }
+  }, []);
+
   return (
     <View style={[styles.login]}>
       <Animated.View style={[styles.image, animatedImageTranslateStyles]}>
@@ -193,6 +213,15 @@ const Login = () => {
             textContentType="telephoneNumber"
           />
         </View>
+        <View style={[styles.checkboxContainer]}>
+          <Text
+            dataDetectorType={"link"}
+            onPress={openTerms}
+            style={[styles.textStyle, { fontSize: 12.5, textDecorationLine: 'underline' }]}
+            theme={{ colors: { text: appColors.secondary } }}>
+            {`Privacy & Terms of Service`}
+          </Text>
+        </View>
         <Animatable.View ref={checkboxView} style={[styles.checkboxContainer]}>
           <Checkbox
             status={termsAccepted ? 'checked' : 'unchecked'}
@@ -225,6 +254,15 @@ const Login = () => {
           </Button>
         </View>
       </Animated.View>
+      <Snackbar
+        visible={showSnack}
+        duration={1000}
+        onDismiss={onDismissSnackBar}
+        theme={{
+          colors: { surface: colors.text, onSurface: colors.error },
+        }}>
+        {message}
+      </Snackbar>
     </View>
   );
 };

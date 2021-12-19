@@ -45,7 +45,7 @@ export default StyleSheet.create({
     width: '70%',
   },
   checkboxContainer: {
-    flex: 0.2,
+    flex: 0.1,
     flexDirection: 'row',
     width: '100%',
     alignItems: 'center',
