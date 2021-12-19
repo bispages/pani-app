@@ -33,7 +33,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import styles from './User.style';
 import {
-  PROFESSIONNUMBER,
+  // PROFESSIONNUMBER,
   USERTYPE_USER,
   USERTYPE_SHOP,
   USERFORM_BOTSHEET_SNAPMAX,
@@ -43,8 +43,8 @@ import {
 import { ItemList } from '../../types';
 import { login, saveUser } from '../../store/actions';
 import useBackHandler from '../../hooks/useBackHandler';
-import { professionList } from '../../utils/professionList';
-import { categoryList } from '../../utils/categoryList';
+// import { professionList } from '../../utils/professionList';
+// import { categoryList } from '../../utils/categoryList';
 
 type routeParams = {
   route: { params: { phone: string } };
@@ -56,9 +56,9 @@ const UserForm = ({ route: { params } }: routeParams) => {
   const [pincode, setPincode] = useState('');
   const [userType, setUserType] = useState(USERTYPE_USER);
   const [image, setImage] = useState<Image | null>(null);
-  const [selectedItems, setSelectedItems] = useState<ItemList[]>([]);
+  // const [selectedItems, setSelectedItems] = useState<ItemList[]>([]);
   const [saveDisabled, setSaveDisabled] = useState(true);
-  const [dataList, setDataList] = useState(professionList);
+  // const [dataList, setDataList] = useState(professionList);
   const [showSnack, setShowSnack] = useState(false);
   const [message, setMessage] = useState('');
   const [isBotSheetActive, setIsBotSheetActive] = useState(false);
@@ -100,7 +100,10 @@ const UserForm = ({ route: { params } }: routeParams) => {
   );
 
   const showBotSheet = useCallback(
-    (sheet: RefObject<BottomSheet>) => sheet.current?.snapToIndex(1),
+    (sheet: RefObject<BottomSheet>) => {
+      keyboardDidHide();
+      sheet.current?.snapToIndex(1)
+    },
     [],
   );
 
@@ -140,16 +143,19 @@ const UserForm = ({ route: { params } }: routeParams) => {
     setMessage('');
   };
 
-  useEffect(() => {
-    const list = userType === USERTYPE_USER ? professionList : categoryList;
-    setDataList(list);
-    setSelectedItems([]);
-  }, [userType]);
+  // useEffect(() => {
+  //   const list = userType === USERTYPE_USER ? professionList : categoryList;
+  //   setDataList(list);
+  //   setSelectedItems([]);
+  // }, [userType]);
 
   useEffect(() => {
     if (pincode.length >= 6) Keyboard.dismiss();
-    setSaveDisabled(!(name && pincode && selectedItems.length > 0));
-  }, [name, pincode, selectedItems]);
+    // setSaveDisabled(!(name && pincode && selectedItems.length > 0));
+    setSaveDisabled(!(name && pincode));
+  }, [name, pincode]);
+  // }, [name, pincode, selectedItems]);
+
 
   const saveDetails = () => {
     const userDetails = {
@@ -158,7 +164,8 @@ const UserForm = ({ route: { params } }: routeParams) => {
       pincode,
       userType,
       image,
-      category: selectedItems,
+      // category: selectedItems,
+      category: []
     };
     AsyncStorage.setItem('user', JSON.stringify(userDetails)).then(() => {
       dispatchAction(saveUser(userDetails));
@@ -166,85 +173,85 @@ const UserForm = ({ route: { params } }: routeParams) => {
     });
   };
 
-  const updateSelectedItems = (item: ItemList, index: number) => {
-    if (
-      selectedItems.length <= PROFESSIONNUMBER - 1 ||
-      (item.selected !== undefined && item.selected)
-    ) {
-      let itemsSelectedList: ItemList[] = [];
-      let currentItem = {} as ItemList;
-      if (item.selected === undefined || !item.selected) {
-        currentItem = { ...item, selected: true };
-        itemsSelectedList = [currentItem, ...selectedItems];
-      } else {
-        currentItem = { ...item, selected: false };
-        itemsSelectedList = selectedItems.filter(
-          (selectedItem: ItemList) => item.id !== selectedItem.id,
-        );
-      }
-      const newDataList = dataList.slice();
-      newDataList[index] = currentItem;
-      setSelectedItems(itemsSelectedList);
-      setDataList(newDataList);
-    } else {
-      setMessage(`Can't add more`);
-      setShowSnack(true);
-    }
-  };
+  // const updateSelectedItems = (item: ItemList, index: number) => {
+  //   if (
+  //     selectedItems.length <= PROFESSIONNUMBER - 1 ||
+  //     (item.selected !== undefined && item.selected)
+  //   ) {
+  //     let itemsSelectedList: ItemList[] = [];
+  //     let currentItem = {} as ItemList;
+  //     if (item.selected === undefined || !item.selected) {
+  //       currentItem = { ...item, selected: true };
+  //       itemsSelectedList = [currentItem, ...selectedItems];
+  //     } else {
+  //       currentItem = { ...item, selected: false };
+  //       itemsSelectedList = selectedItems.filter(
+  //         (selectedItem: ItemList) => item.id !== selectedItem.id,
+  //       );
+  //     }
+  //     const newDataList = dataList.slice();
+  //     newDataList[index] = currentItem;
+  //     setSelectedItems(itemsSelectedList);
+  //     setDataList(newDataList);
+  //   } else {
+  //     setMessage(`Can't add more`);
+  //     setShowSnack(true);
+  //   }
+  // };
 
-  const renderBottomSheet = () => (
-    <BottomSheet
-      ref={bottomSheet}
-      index={-1}
-      snapPoints={snapPoints}
-      onChange={(index: number) => handleSheetChanges(index, bottomSheet)}
-      backdropComponent={renderBackdrop}>
-      <BottomSheetScrollView
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={[styles.listContainer]}
-        persistentScrollbar
-        removeClippedSubviews>
-        {dataList.map((item: ItemList, index: number) => {
-          return (
-            <Chip
-              key={item.id}
-              icon={
-                userType === USERTYPE_SHOP
-                  ? 'store-outline'
-                  : 'account-circle-outline'
-              }
-              style={
-                item.selected
-                  ? [
-                      styles.dataListChip,
-                      {
-                        backgroundColor: colors.accent,
-                        borderColor: colors.accent,
-                      },
-                    ]
-                  : [
-                      styles.dataListChip,
-                      {
-                        backgroundColor: colors.text,
-                        borderColor: colors.disabled,
-                      },
-                    ]
-              }
-              textStyle={
-                item.selected
-                  ? { color: colors.text }
-                  : { color: colors.primary }
-              }
-              selected={item?.selected ?? false}
-              selectedColor={item.selected ? colors.text : colors.primary}
-              onPress={() => updateSelectedItems({ ...item }, index)}>
-              {item.name}
-            </Chip>
-          );
-        })}
-      </BottomSheetScrollView>
-    </BottomSheet>
-  );
+  // const renderBottomSheet = () => (
+  //   <BottomSheet
+  //     ref={bottomSheet}
+  //     index={-1}
+  //     snapPoints={snapPoints}
+  //     onChange={(index: number) => handleSheetChanges(index, bottomSheet)}
+  //     backdropComponent={renderBackdrop}>
+  //     <BottomSheetScrollView
+  //       showsHorizontalScrollIndicator={false}
+  //       contentContainerStyle={[styles.listContainer]}
+  //       persistentScrollbar
+  //       removeClippedSubviews>
+  //       {dataList.map((item: ItemList, index: number) => {
+  //         return (
+  //           <Chip
+  //             key={item.id}
+  //             icon={
+  //               userType === USERTYPE_SHOP
+  //                 ? 'store-outline'
+  //                 : 'account-circle-outline'
+  //             }
+  //             style={
+  //               item.selected
+  //                 ? [
+  //                     styles.dataListChip,
+  //                     {
+  //                       backgroundColor: colors.accent,
+  //                       borderColor: colors.accent,
+  //                     },
+  //                   ]
+  //                 : [
+  //                     styles.dataListChip,
+  //                     {
+  //                       backgroundColor: colors.text,
+  //                       borderColor: colors.disabled,
+  //                     },
+  //                   ]
+  //             }
+  //             textStyle={
+  //               item.selected
+  //                 ? { color: colors.text }
+  //                 : { color: colors.primary }
+  //             }
+  //             selected={item?.selected ?? false}
+  //             selectedColor={item.selected ? colors.text : colors.primary}
+  //             onPress={() => updateSelectedItems({ ...item }, index)}>
+  //             {item.name}
+  //           </Chip>
+  //         );
+  //       })}
+  //     </BottomSheetScrollView>
+  //   </BottomSheet>
+  // );
 
   const takePhotoFromCamera = () => {
     ImagePicker.openCamera({
@@ -471,19 +478,19 @@ const UserForm = ({ route: { params } }: routeParams) => {
                 style={
                   userType === USERTYPE_USER
                     ? [
-                        styles.radioChip,
-                        {
-                          backgroundColor: colors.accent,
-                          borderColor: colors.accent,
-                        },
-                      ]
+                      styles.radioChip,
+                      {
+                        backgroundColor: colors.accent,
+                        borderColor: colors.accent,
+                      },
+                    ]
                     : [
-                        styles.radioChip,
-                        {
-                          backgroundColor: colors.text,
-                          borderColor: colors.disabled,
-                        },
-                      ]
+                      styles.radioChip,
+                      {
+                        backgroundColor: colors.text,
+                        borderColor: colors.disabled,
+                      },
+                    ]
                 }
                 textStyle={
                   userType === USERTYPE_USER
@@ -507,19 +514,19 @@ const UserForm = ({ route: { params } }: routeParams) => {
                 style={
                   userType === USERTYPE_SHOP
                     ? [
-                        styles.radioChip,
-                        {
-                          backgroundColor: colors.accent,
-                          borderColor: colors.accent,
-                        },
-                      ]
+                      styles.radioChip,
+                      {
+                        backgroundColor: colors.accent,
+                        borderColor: colors.accent,
+                      },
+                    ]
                     : [
-                        styles.radioChip,
-                        {
-                          backgroundColor: colors.text,
-                          borderColor: colors.disabled,
-                        },
-                      ]
+                      styles.radioChip,
+                      {
+                        backgroundColor: colors.text,
+                        borderColor: colors.disabled,
+                      },
+                    ]
                 }
                 textStyle={
                   userType === USERTYPE_SHOP
@@ -538,7 +545,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
               </Chip>
             </View>
           </View>
-          <View style={styles.categorybtnContainer}>
+          {/* <View style={styles.categorybtnContainer}>
             {userType === USERTYPE_USER ? (
               <Button
                 dark
@@ -570,8 +577,8 @@ const UserForm = ({ route: { params } }: routeParams) => {
                 ADD CATEGORY
               </Button>
             )}
-          </View>
-          <View style={styles.itemsListContainer}>
+          </View> */}
+          {/* <View style={styles.itemsListContainer}>
             {selectedItems.map((item: ItemList) => (
               <Text
                 key={item.id}
@@ -579,7 +586,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
                 {item.name}
               </Text>
             ))}
-          </View>
+          </View> */}
           <View style={styles.savebtnContainer}>
             <Button
               dark
@@ -607,7 +614,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
         }}>
         {message}
       </Snackbar>
-      {renderBottomSheet()}
+      {/* {renderBottomSheet()} */}
       {renderPhotoBottomSheet()}
     </View>
   );
