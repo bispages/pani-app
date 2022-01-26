@@ -1,175 +1,67 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { View } from 'react-native';
-import { TextInput, Button, useTheme } from 'react-native-paper';
+import { Text, FAB, useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { RootState } from '../../store';
-import { EstimateForm } from '../../types';
-import { addCustomer } from '../../store/actions';
 import styles from './Estimate.style';
+import EmptyList from '../../assets/img/empty_list.svg';
 
 const Estimate = () => {
-  const dispatch = useDispatch();
-  const { dark, colors } = useTheme();
+  const { colors, appColors } = useTheme();
   const navigation = useNavigation();
-  const [name, setName] = useState('');
-  const [area, setArea] = useState('');
-  const [mobile, setMobile] = useState('');
-  const [pincode, setPincode] = useState('');
-  const formVal: EstimateForm = useSelector(
-    (state: RootState) => state.estimate,
-  );
-  const { customer } = formVal;
-
-  const createEstimate = () => {
-    dispatch(addCustomer({ name, area, mobile, pincode }));
-    navigation.navigate('MaterialTypes');
-  };
 
   return (
     <View style={[styles.panelButtonContainer]}>
-      <View style={[styles.panelTextContainer]}>
-        <View style={[styles.textContainer]}>
-          <TextInput
-            mode="flat"
-            label="Customer Name"
-            left={
-              <TextInput.Icon
-                name="account-outline"
-                style={styles.preText}
-                color={colors.accent}
-              />
-            }
-            theme={{
-              colors: {
-                primary: colors.accent,
-                text: colors.primary,
-                background: colors.text,
-              },
-            }}
-            style={[styles.textInput]}
-            keyboardType="default"
-            maxLength={40}
-            onChangeText={(text: string) => setName(text)}
-            defaultValue={customer.name}
-            value={name}
-            autoCorrect={false}
-            autoCompleteType="name"
-            returnKeyType="next"
-            textAlign="left"
-            textContentType="name"
-          />
-        </View>
-        <View style={[styles.textContainer]}>
-          <TextInput
-            mode="flat"
-            label="Area"
-            left={
-              <TextInput.Icon
-                name="home-outline"
-                style={styles.preText}
-                color={colors.accent}
-              />
-            }
-            theme={{
-              colors: {
-                primary: colors.accent,
-                text: colors.primary,
-                background: colors.text,
-              },
-            }}
-            style={[styles.textInput]}
-            keyboardType="default"
-            maxLength={40}
-            onChangeText={(text: string) => setArea(text)}
-            defaultValue={customer.area}
-            value={area}
-            autoCorrect={false}
-            autoCompleteType="street-address"
-            returnKeyType="next"
-            textAlign="left"
-            textContentType="location"
-          />
-        </View>
-        <View style={[styles.textContainer]}>
-          <TextInput
-            mode="flat"
-            label="Mobile Number"
-            left={
-              <TextInput.Icon
-                name="phone-plus-outline"
-                style={styles.preText}
-                color={colors.accent}
-              />
-            }
-            theme={{
-              colors: {
-                primary: colors.accent,
-                text: colors.primary,
-                background: colors.text,
-              },
-            }}
-            style={[styles.textInput]}
-            keyboardType="numeric"
-            maxLength={10}
-            onChangeText={(text: string) => setMobile(text)}
-            defaultValue={customer.mobile}
-            value={mobile}
-            autoCorrect={false}
-            autoCompleteType="tel"
-            returnKeyType="next"
-            textAlign="left"
-            textContentType="telephoneNumber"
-          />
-        </View>
-        <View style={[styles.textContainer]}>
-          <TextInput
-            mode="flat"
-            label="Pincode"
-            left={
-              <TextInput.Icon
-                name="map-marker-outline"
-                style={styles.preText}
-                color={colors.accent}
-              />
-            }
-            theme={{
-              colors: {
-                primary: colors.accent,
-                text: colors.primary,
-                background: colors.text,
-              },
-            }}
-            style={[styles.textInput]}
-            keyboardType="numeric"
-            maxLength={6}
-            onChangeText={(text: string) => setPincode(text)}
-            defaultValue={customer.pincode}
-            value={pincode}
-            autoCorrect={false}
-            autoCompleteType="postal-code"
-            returnKeyType="next"
-            textAlign="left"
-            textContentType="postalCode"
-          />
-        </View>
+      <View
+        style={{
+          flex: 0.4,
+          width: '100%',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+        }}>
+        <EmptyList width="70%" height="70%" />
       </View>
-      <View style={[styles.panelButtonView]}>
-        <Button
-          dark
-          loading={false}
-          mode="contained"
-          onPress={createEstimate}
-          contentStyle={styles.panelButton}
-          theme={{
-            colors: {
-              primary: colors.accent,
-            },
+      <View
+        style={{
+          flex: 0.6,
+          width: '100%',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
           }}>
-          START
-        </Button>
+          <Text
+            style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}
+            theme={{ colors: { text: colors.text } }}>
+            It seems you haven't added any estimate.
+          </Text>
+        </View>
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingTop: 20,
+          }}>
+          <Text
+            style={{ fontSize: 14, textAlign: 'center' }}
+            theme={{ colors: { text: colors.text } }}>
+            No estimates found. Start adding estimates.
+          </Text>
+        </View>
       </View>
+      <FAB
+        style={{
+          position: 'absolute',
+          right: 20,
+          bottom: 20,
+        }}
+        color={appColors.white}
+        icon="plus"
+        onPress={() => navigation.navigate('EstimateForm')}
+      />
     </View>
   );
 };

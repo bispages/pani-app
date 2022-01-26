@@ -5,10 +5,6 @@ import { useTheme } from 'react-native-paper';
 //   TransitionPresets,
 // } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import {
-  StackActions,
-  getFocusedRouteNameFromRoute,
-} from '@react-navigation/native';
 
 // import Search from '../screens/Search';
 import Profile from '../screens/Profile';
@@ -17,7 +13,6 @@ import Profile from '../screens/Profile';
 import Support from '../screens/Support';
 import DrawerContent from '../screens/Drawer';
 // import Details from '../screens/Details';
-import BackButton from '../components/BackButton';
 import EstimateNavigationStack from '../navigations/EstimateNavigationStack';
 
 const AppDrawer = createDrawerNavigator();
@@ -51,47 +46,6 @@ const AppDrawer = createDrawerNavigator();
 //   );
 // };
 
-// This sets the header of different screens inside drawer.
-function getDrawerHeaderConfig(route: any, navigation: any) {
-  const routeName = getFocusedRouteNameFromRoute(route) ?? 'Pani App';
-  switch (routeName) {
-    // case 'Search':
-    //   return {
-    //     headerTitle: 'Pani App',
-    //   };
-    case 'Details':
-      return {
-        headerTitle: 'Detailed List',
-        headerLeft: (props: any) => (
-          <BackButton
-            {...props}
-            onPress={() => navigation.dispatch(StackActions.pop())}
-          />
-        ),
-      };
-    case 'MaterialTypes':
-      return {
-        headerTitle: 'Estimate',
-        headerLeft: (props: any) => (
-          <BackButton
-            {...props}
-            onPress={() => navigation.dispatch(StackActions.pop())}
-          />
-        ),
-      };
-    case 'MaterialItems':
-      return {
-        headerTitle: 'Estimate',
-        headerLeft: (props: any) => (
-          <BackButton
-            {...props}
-            onPress={() => navigation.dispatch(StackActions.pop())}
-          />
-        ),
-      };
-  }
-}
-
 const AppNavigationDrawer = () => {
   const { colors } = useTheme();
 
@@ -102,7 +56,7 @@ const AppNavigationDrawer = () => {
       sceneContainerStyle={{ flex: 1 }}
       drawerStyle={{ flex: 1 }}
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
         headerStatusBarHeight: 0,
         headerTintColor: colors.text,
         headerPressColorAndroid: colors.accent,
@@ -124,15 +78,23 @@ const AppNavigationDrawer = () => {
       <AppDrawer.Screen
         name="EstimateStack"
         component={EstimateNavigationStack}
-        options={({ route, navigation }) => ({
-          title: 'Estimate',
-          ...getDrawerHeaderConfig(route, navigation),
-        })}
       />
-      <AppDrawer.Screen name="Profile" component={Profile} />
+      <AppDrawer.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          headerShown: true,
+        }}
+      />
       {/* <AppDrawer.Screen name="Bookmarks" component={Bookmarks} /> */}
       {/* <AppDrawer.Screen name="Settings" component={Settings} /> */}
-      <AppDrawer.Screen name="Support" component={Support} />
+      <AppDrawer.Screen
+        name="Support"
+        component={Support}
+        options={{
+          headerShown: true,
+        }}
+      />
     </AppDrawer.Navigator>
   );
 };

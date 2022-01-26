@@ -67,7 +67,7 @@ export type Customer = {
 };
 
 export type FormValue = EstimateItem[];
-export type EstimateForm = {
+export type EstimateFormValues = {
   customer: Customer;
   estimateItems: EstimateItem[];
 };
