@@ -44,8 +44,15 @@ export default StyleSheet.create({
   textInput: {
     width: '70%',
   },
+  termsContainer: {
+    flex: 0.12,
+    flexDirection: 'row',
+    width: '100%',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+  },
   checkboxContainer: {
-    flex: 0.1,
+    flex: 0.14,
     flexDirection: 'row',
     width: '100%',
     alignItems: 'center',
@@ -63,7 +70,7 @@ export default StyleSheet.create({
     textDecorationLine: 'none',
   },
   btnContainer: {
-    flex: 0.3,
+    flex: 0.24,
     width: '100%',
     overflow: 'hidden',
     alignItems: 'center',

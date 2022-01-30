@@ -213,7 +213,7 @@ const Login = () => {
             textContentType="telephoneNumber"
           />
         </View>
-        <View style={[styles.checkboxContainer]}>
+        <View style={[styles.termsContainer]}>
           <Text
             dataDetectorType={"link"}
             onPress={openTerms}
