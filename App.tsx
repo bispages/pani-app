@@ -84,8 +84,6 @@ const App = () => {
   const [theme, setTheme] = useState(userTheme);
   const appTheme = theme === 'light' ? lightTheme : defaultTheme;
 
-  console.log(theme);
-
   useEffect(() => {
     (async () => {
       await AsyncStorage.getItem('theme').then((value) => {
