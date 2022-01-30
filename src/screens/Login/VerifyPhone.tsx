@@ -85,7 +85,7 @@ const VerifyPhone = ({ route: { params } }: routeParams) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [verifyActionDisabled, setVerifyActionDisabled] = useState(true);
   const refs: RefObject<TextInput>[] = [];
-  const { colors, appColors } = useTheme();
+  const { appColors } = useTheme();
   const dispatchAction = useDispatch();
   const { user } = useIsLoggedIn();
 
@@ -203,19 +203,19 @@ const VerifyPhone = ({ route: { params } }: routeParams) => {
         <View style={styles.headline}>
           <Text
             style={[styles.heading]}
-            theme={{ colors: { text: colors.primary } }}>
+            theme={{ colors: { text: appColors.primary } }}>
             OTP Verification
           </Text>
           <View style={[styles.phoneVerifyContainer]}>
             <Text
               style={[styles.subHeading]}
-              theme={{ colors: { text: colors.primary } }}>
+              theme={{ colors: { text: appColors.primary } }}>
               Enter the OTP sent to
             </Text>
             <Text
               style={[styles.phonenum]}
               theme={{
-                colors: { text: colors.primary },
+                colors: { text: appColors.primary },
               }}>{`+91 ${phone}`}</Text>
           </View>
         </View>
@@ -231,9 +231,9 @@ const VerifyPhone = ({ route: { params } }: routeParams) => {
                   mode="outlined"
                   theme={{
                     colors: {
-                      primary: colors.accent,
-                      text: colors.primary,
-                      background: colors.text,
+                      primary: appColors.secondary,
+                      text: appColors.primary,
+                      background: appColors.white,
                     },
                   }}
                   style={[styles.otpTextInput]}
@@ -253,12 +253,12 @@ const VerifyPhone = ({ route: { params } }: routeParams) => {
           <View style={styles.resendContainer}>
             <Text
               style={styles.resendText}
-              theme={{ colors: { text: colors.primary } }}>
+              theme={{ colors: { text: appColors.primary } }}>
               Didn't received OTP?
             </Text>
             <View style={styles.resendBtn}>
               <TouchableOpacity onPress={resend}>
-                <Text style={[styles.resendBtnTxt, { color: colors.accent }]}>
+                <Text style={[styles.resendBtnTxt, { color: appColors.secondary }]}>
                   RESEND
                 </Text>
               </TouchableOpacity>

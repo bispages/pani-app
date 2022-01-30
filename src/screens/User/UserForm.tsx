@@ -65,7 +65,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
   const bottomSheet = useRef<BottomSheet>(null);
   const photoBottomSheet = useRef<BottomSheet>(null);
   const windowWidth = useWindowDimensions().width;
-  const { colors, appColors } = useTheme();
+  const { appColors } = useTheme();
   const dispatchAction = useDispatch();
 
   const snapPoints = useMemo(
@@ -274,7 +274,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
       cropping: true,
       mediaType: 'photo',
       cropperCircleOverlay: true,
-      cropperActiveWidgetColor: colors.accent,
+      cropperActiveWidgetColor: appColors.secondary,
     })
       .then((image: Image) => {
         closeBotSheet(photoBottomSheet);
@@ -310,7 +310,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
               contentStyle={styles.panelButton}
               theme={{
                 colors: {
-                  primary: colors.accent,
+                  primary: appColors.secondary,
                 },
               }}>
               TAKE PHOTO
@@ -325,7 +325,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
               contentStyle={styles.panelButton}
               theme={{
                 colors: {
-                  primary: colors.accent,
+                  primary: appColors.secondary,
                 },
               }}>
               CHOOSE FROM LIBRARY
@@ -340,7 +340,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
               contentStyle={styles.panelButton}
               theme={{
                 colors: {
-                  primary: colors.accent,
+                  primary: appColors.secondary,
                 },
               }}>
               CANCEL
@@ -353,7 +353,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
 
   return (
     <View style={[styles.container]}>
-      <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <View style={[styles.container, { backgroundColor: appColors.primary }]}>
         <View style={[styles.userBannerContainer]}>
           {image ? (
             <>
@@ -372,8 +372,8 @@ const UserForm = ({ route: { params } }: routeParams) => {
               <Pressable
                 disabled={isBotSheetActive}
                 onPress={() => showBotSheet(photoBottomSheet)}
-                style={[styles.editPic, { backgroundColor: colors.accent }]}>
-                <Icon name="camera-plus" color={colors.text} size={14} />
+                style={[styles.editPic, { backgroundColor: appColors.secondary }]}>
+                <Icon name="camera-plus" color={appColors.primary} size={14} />
               </Pressable>
             </>
           ) : (
@@ -389,7 +389,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
               onPress={() => showBotSheet(photoBottomSheet)}>
               <Icon
                 name="camera-plus-outline"
-                color={colors.primary}
+                color={appColors.primary}
                 size={30}
                 style={styles.icon}
               />
@@ -417,14 +417,14 @@ const UserForm = ({ route: { params } }: routeParams) => {
                 <TextInput.Icon
                   name="account-outline"
                   style={styles.preText}
-                  color={colors.accent}
+                  color={appColors.secondary}
                 />
               }
               theme={{
                 colors: {
-                  primary: colors.accent,
-                  text: colors.primary,
-                  background: colors.text,
+                  primary: appColors.secondary,
+                  text: appColors.primary,
+                  background: appColors.white,
                 },
               }}
               style={[styles.textInput]}
@@ -448,14 +448,14 @@ const UserForm = ({ route: { params } }: routeParams) => {
                 <TextInput.Icon
                   name="map-marker-outline"
                   style={styles.preText}
-                  color={colors.accent}
+                  color={appColors.secondary}
                 />
               }
               theme={{
                 colors: {
-                  primary: colors.accent,
-                  text: colors.primary,
-                  background: colors.text,
+                  primary: appColors.secondary,
+                  text: appColors.primary,
+                  background: appColors.white,
                 },
               }}
               style={[styles.textInput]}
@@ -480,27 +480,21 @@ const UserForm = ({ route: { params } }: routeParams) => {
                     ? [
                       styles.radioChip,
                       {
-                        backgroundColor: colors.accent,
-                        borderColor: colors.accent,
+                        backgroundColor: appColors.secondary,
+                        borderColor: appColors.secondary,
                       },
                     ]
                     : [
                       styles.radioChip,
                       {
-                        backgroundColor: colors.text,
-                        borderColor: colors.disabled,
+                        backgroundColor: appColors.greyfriendTwo,
+                        borderColor: appColors.greyfriendTwo,
                       },
                     ]
                 }
-                textStyle={
-                  userType === USERTYPE_USER
-                    ? { color: colors.text }
-                    : { color: colors.primary }
-                }
+                textStyle={{ color: appColors.white }}
                 selected={userType === USERTYPE_USER}
-                selectedColor={
-                  userType === USERTYPE_USER ? colors.text : colors.primary
-                }
+                selectedColor={appColors.white}
                 onPress={() => {
                   Keyboard.dismiss();
                   setUserType(USERTYPE_USER);
@@ -516,27 +510,21 @@ const UserForm = ({ route: { params } }: routeParams) => {
                     ? [
                       styles.radioChip,
                       {
-                        backgroundColor: colors.accent,
-                        borderColor: colors.accent,
+                        backgroundColor: appColors.secondary,
+                        borderColor: appColors.secondary,
                       },
                     ]
                     : [
                       styles.radioChip,
                       {
-                        backgroundColor: colors.text,
-                        borderColor: colors.disabled,
+                        backgroundColor: appColors.greyfriendTwo,
+                        borderColor: appColors.greyfriendTwo,
                       },
                     ]
                 }
-                textStyle={
-                  userType === USERTYPE_SHOP
-                    ? { color: colors.text }
-                    : { color: colors.primary }
-                }
+                textStyle={{ color: appColors.white }}
                 selected={userType === USERTYPE_SHOP}
-                selectedColor={
-                  userType === USERTYPE_SHOP ? colors.text : colors.primary
-                }
+                selectedColor={appColors.white}
                 onPress={() => {
                   Keyboard.dismiss();
                   setUserType(USERTYPE_SHOP);
@@ -597,7 +585,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
               contentStyle={styles.saveButton}
               theme={{
                 colors: {
-                  primary: colors.accent,
+                  primary: appColors.secondary,
                 },
               }}>
               SAVE
@@ -610,7 +598,7 @@ const UserForm = ({ route: { params } }: routeParams) => {
         duration={1000}
         onDismiss={onDismissSnackBar}
         theme={{
-          colors: { surface: colors.text, onSurface: colors.error },
+          colors: { surface: appColors.white, onSurface: appColors.error },
         }}>
         {message}
       </Snackbar>

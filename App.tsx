@@ -7,8 +7,8 @@
  * @format
  */
 
-import React, { useEffect, useMemo } from 'react';
-import { View, StatusBar, StyleSheet } from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useColorScheme, StatusBar, StyleSheet, ColorSchemeName } from 'react-native';
 import { enableScreens } from 'react-native-screens';
 import BootSplash from 'react-native-bootsplash';
 import { Provider as StoreProvider } from 'react-redux';
@@ -22,6 +22,7 @@ import {
   DarkTheme as NavigationDarkTheme,
 } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import ThemeContext from './src/components/Context';
 import RootNavigationContainer from './src/navigations/RootNavigationContainer';
@@ -76,41 +77,46 @@ const defaultTheme = {
   appColors: Colors,
 };
 
+type AppTheme = string | ColorSchemeName;
+
 const App = () => {
-  let userTheme = false;
-  AsyncStorage.getItem('theme').then(value => {
-    userTheme = value ? JSON.parse(value).isLightTheme : false;
-    setIsLightTheme(userTheme);
-  });
-  const [isLightTheme, setIsLightTheme] = React.useState(userTheme);
-  const theme = isLightTheme ? lightTheme : defaultTheme;
+  let userTheme: AppTheme = useColorScheme();
+  const [theme, setTheme] = useState(userTheme);
+  const appTheme = theme === 'light' ? lightTheme : defaultTheme;
+
+  console.log(theme);
 
   useEffect(() => {
-    (async () => await BootSplash.hide({ fade: true }))();
+    (async () => {
+      await AsyncStorage.getItem('theme').then((value) => {
+        userTheme = value ? value : (userTheme || 'dark');
+        setTheme(userTheme);
+      });
+      await BootSplash.hide({ fade: true })
+    }
+    )();
   }, []);
 
   const themeContext = useMemo(
     () => ({
       toggleTheme: () => {
-        AsyncStorage.setItem(
-          'theme',
-          JSON.stringify({ isLightTheme: !isLightTheme }),
-        ).then(() => {
-          setIsLightTheme(!isLightTheme);
+        const newTheme = theme === 'light' ? 'dark' : 'light';
+        AsyncStorage.setItem('theme', newTheme).then(() => {
+          setTheme(newTheme);
         });
       },
     }),
-    [isLightTheme],
+    [theme],
   );
 
   return (
     <StoreProvider store={store}>
-      <PaperProvider theme={theme}>
+      <PaperProvider theme={appTheme}>
         <ThemeContext.Provider value={themeContext}>
-          <View style={styles.container}>
+          <SafeAreaProvider style={styles.container}>
             <StatusBar backgroundColor={Colors.dark} barStyle="light-content" />
-            <RootNavigationContainer theme={theme} />
-          </View>
+            <RootNavigationContainer theme={appTheme} />
+          </SafeAreaProvider>
         </ThemeContext.Provider>
       </PaperProvider>
     </StoreProvider>

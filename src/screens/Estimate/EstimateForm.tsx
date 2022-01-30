@@ -44,10 +44,10 @@ const EstimateForm = () => {
             theme={{
               colors: {
                 primary: colors.accent,
-                text: colors.primary,
-                background: colors.text,
+                background: dark ? colors.background : colors.primary,
               },
             }}
+            underlineColor={dark ? colors.background : colors.primary}
             style={[styles.textInput]}
             keyboardType="default"
             maxLength={40}
@@ -75,10 +75,10 @@ const EstimateForm = () => {
             theme={{
               colors: {
                 primary: colors.accent,
-                text: colors.primary,
-                background: colors.text,
+                background: dark ? colors.background : colors.primary,
               },
             }}
+            underlineColor={dark ? colors.background : colors.primary}
             style={[styles.textInput]}
             keyboardType="default"
             maxLength={40}
@@ -106,10 +106,10 @@ const EstimateForm = () => {
             theme={{
               colors: {
                 primary: colors.accent,
-                text: colors.primary,
-                background: colors.text,
+                background: dark ? colors.background : colors.primary,
               },
             }}
+            underlineColor={dark ? colors.background : colors.primary}
             style={[styles.textInput]}
             keyboardType="numeric"
             maxLength={10}
@@ -137,10 +137,10 @@ const EstimateForm = () => {
             theme={{
               colors: {
                 primary: colors.accent,
-                text: colors.primary,
-                background: colors.text,
+                background: dark ? colors.background : colors.primary,
               },
             }}
+            underlineColor={dark ? colors.background : colors.primary}
             style={[styles.textInput]}
             keyboardType="numeric"
             maxLength={6}

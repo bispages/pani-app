@@ -35,7 +35,7 @@ const Login = () => {
   const [showSnack, setShowSnack] = useState(false);
   const [message, setMessage] = useState('');
   const checkboxView = useRef<Animatable.View & View>(null);
-  const { colors, appColors } = useTheme();
+  const { appColors } = useTheme();
   const navigation = useNavigation();
   const windowWidth = useWindowDimensions().width;
   const windowHeight = useWindowDimensions().height;
@@ -166,12 +166,12 @@ const Login = () => {
         <View style={styles.headline}>
           <Text
             style={[styles.heading]}
-            theme={{ colors: { text: colors.primary } }}>
+            theme={{ colors: { text: appColors.primary } }}>
             Let's set your phone number
           </Text>
           <Text
             style={[styles.subHeading]}
-            theme={{ colors: { text: colors.primary } }}>
+            theme={{ colors: { text: appColors.primary } }}>
             We will send you the 4 digit verification code
           </Text>
         </View>
@@ -188,16 +188,16 @@ const Login = () => {
                 ]}
                 theme={{
                   colors: {
-                    text: colors.primary,
+                    text: appColors.primary,
                   },
                 }}
               />
             }
             theme={{
               colors: {
-                primary: colors.accent,
-                text: colors.primary,
-                background: colors.text,
+                primary: appColors.primary,
+                text: appColors.primary,
+                background: appColors.white,
               },
             }}
             style={[styles.textInput]}
@@ -232,7 +232,7 @@ const Login = () => {
           <Pressable style={[styles.termsAcceptedText]} onPress={acceptTerms}>
             <Text
               style={[styles.textStyle]}
-              theme={{ colors: { text: colors.primary } }}>
+              theme={{ colors: { text: appColors.primary } }}>
               I accept the terms and conditions.
             </Text>
           </Pressable>
@@ -247,7 +247,7 @@ const Login = () => {
             contentStyle={styles.button}
             theme={{
               colors: {
-                primary: colors.accent,
+                primary: appColors.secondary,
               },
             }}>
             GENERATE OTP
@@ -259,7 +259,7 @@ const Login = () => {
         duration={1000}
         onDismiss={onDismissSnackBar}
         theme={{
-          colors: { surface: colors.text, onSurface: colors.error },
+          colors: { surface: appColors.white, onSurface: appColors.error },
         }}>
         {message}
       </Snackbar>
